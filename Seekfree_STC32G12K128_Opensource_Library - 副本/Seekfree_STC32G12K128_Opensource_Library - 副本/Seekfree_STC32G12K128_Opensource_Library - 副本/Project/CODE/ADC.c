@@ -119,7 +119,22 @@ void Nadc_normalization_once(void){
 	dg_state.L_r13_once = constrain_float(dg_state.L_r13_once,0,100);//限幅0-100
     dg_state.L_r21_once = constrain_float(dg_state.L_r21_once,0,100);//限幅0-100
 }
-
+/************************************************
+函数名：Nadc_normalization_max
+功  能：读取场地最大电感值以便后续归一化
+参  数：void
+返回值：void
+************************************************/
+void Nadc_normalization_max(void){
+	dg_state.L_l13_max=Nadc_getmax(ADC_P14,10,ADC_12BIT);
+	dg_state.L_l11_max=dg_state.L_l13_max;
+    dg_state.L_l12_max=dg_state.L_l13_max;
+    dg_state.L_l21_max=dg_state.L_l13_max;
+    dg_state.L_r11_max=dg_state.L_l13_max;
+    dg_state.L_r12_max=dg_state.L_l13_max;
+    dg_state.L_r13_max=dg_state.L_l13_max;
+    dg_state.L_r21_max=dg_state.L_l13_max;
+}
 
 
 
