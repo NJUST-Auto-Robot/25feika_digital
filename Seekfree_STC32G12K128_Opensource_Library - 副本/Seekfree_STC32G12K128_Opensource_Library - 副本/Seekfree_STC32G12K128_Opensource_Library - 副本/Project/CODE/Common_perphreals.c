@@ -43,8 +43,8 @@ void DRV8701_init(void)
 	pwm_init(PWM_1, 17000, 0); 	//初始化PWM1  使用P60引脚  初始化频率为17Khz
 	pwm_init(PWM_2, 17000, 0); 	//初始化PWM2  使用P62引脚  初始化频率为17Khz
 	
-	gpio_mode(P6_4, GPO_PP);	// P64引脚设置为推挽输出
-	gpio_mode(P6_0, GPO_PP);	// P60引脚设置为推挽输出
+	gpio_mode(P2_6, GPO_PP);	// P26引脚设置为推挽输出
+	gpio_mode(P2_0, GPO_PP);	// P20引脚设置为推挽输出
 
 }
 
