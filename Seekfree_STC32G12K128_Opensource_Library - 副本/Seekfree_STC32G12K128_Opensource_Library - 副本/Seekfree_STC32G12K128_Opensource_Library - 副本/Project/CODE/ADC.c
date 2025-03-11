@@ -110,14 +110,14 @@ void Nadc_normalization_once(void){
 	dg_state.L_r13_once = ((float)dg_state.L_r13_real) * 100 / dg_state.L_r13_max;
 	dg_state.L_r21_once = ((float)dg_state.L_r21_real) * 100 / dg_state.L_r21_max;
 
-	dg_state.L_l11_once = constrain_float(dg_state.L_l11_once,0,100);//限幅0-100
-	dg_state.L_l12_once = constrain_float(dg_state.L_l12_once,0,100);//限幅0-100
-	dg_state.L_l13_once = constrain_float(dg_state.L_l13_once,0,100);//限幅0-100
-	dg_state.L_l21_once = constrain_float(dg_state.L_l21_once,0,100);//限幅0-100
-	dg_state.L_r11_once = constrain_float(dg_state.L_r11_once,0,100);//限幅0-100
-	dg_state.L_r12_once = constrain_float(dg_state.L_r12_once,0,100);//限幅0-100
-	dg_state.L_r13_once = constrain_float(dg_state.L_r13_once,0,100);//限幅0-100
-    dg_state.L_r21_once = constrain_float(dg_state.L_r21_once,0,100);//限幅0-100
+	dg_state.L_l11_once = constrain_float(dg_state.L_l11_once,0,210);//限幅0-100
+	dg_state.L_l12_once = constrain_float(dg_state.L_l12_once,0,210);//限幅0-100
+	dg_state.L_l13_once = constrain_float(dg_state.L_l13_once,0,210);//限幅0-100
+	dg_state.L_l21_once = constrain_float(dg_state.L_l21_once,0,210);//限幅0-100
+	dg_state.L_r11_once = constrain_float(dg_state.L_r11_once,0,210);//限幅0-100
+	dg_state.L_r12_once = constrain_float(dg_state.L_r12_once,0,210);//限幅0-100
+	dg_state.L_r13_once = constrain_float(dg_state.L_r13_once,0,210);//限幅0-100
+    dg_state.L_r21_once = constrain_float(dg_state.L_r21_once,0,210);//限幅0-100
 }
 /************************************************
 函数名：Nadc_normalization_max
