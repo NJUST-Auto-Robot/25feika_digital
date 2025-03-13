@@ -6,7 +6,7 @@ int32 TIM_1_flag=0;
 pid_param_t Nomal_PID;//位置式PID
 pid_param_t DJ_PID;//增量式PID
 pid_param_t CS_PID;//差速
-
+int16 L_OUT=0,R_OUT=0;
 
 
 /************************************************
@@ -67,9 +67,9 @@ float PidLocCtrl(pid_param_t * pid, float error)
 ************************************************/
 float PidIncCtrl_L(pid_param_t * pid, float error)
 {
-    DJ_PID.kp=110;
-    DJ_PID.ki=6;
-    DJ_PID.kd=5;
+    DJ_PID.kp=40;
+    DJ_PID.ki=0.00005;
+    // DJ_PID.kd=5;
 
 
 
@@ -92,9 +92,9 @@ float PidIncCtrl_L(pid_param_t * pid, float error)
 ************************************************/
 float PidIncCtrl_R(pid_param_t * pid, float error)
 {
-    DJ_PID.kp=110;
-    DJ_PID.ki=6;
-    DJ_PID.kd=5;
+    DJ_PID.kp=40;
+    DJ_PID.ki=0.00005;
+    // DJ_PID.kd=5;
 
 
 

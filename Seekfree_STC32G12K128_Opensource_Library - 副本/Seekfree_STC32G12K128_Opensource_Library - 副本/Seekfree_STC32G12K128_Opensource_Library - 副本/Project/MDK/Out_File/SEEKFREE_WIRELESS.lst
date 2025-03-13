@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  SEEKFREE_WIRELESS                                                  04/03/25  13:23:49  PAGE 1   
+C251 COMPILER V5.60.0,  SEEKFREE_WIRELESS                                                  13/03/25  18:25:08  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_WIRELESS
 OBJECT MODULE PLACED IN .\Out_File\SEEKFREE_WIRELESS.obj
-COMPILER INVOKED BY: D:\C251\BIN\C251.EXE ..\..\Libraries\seekfree_peripheral\SEEKFREE_WIRELESS.c XSMALL INTR2 FLOAT64 W
-                    -ARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Librar
-                    -ies\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\SEEK
-                    -FREE_WIRELESS.lst) TABS(2) OBJECT(.\Out_File\SEEKFREE_WIRELESS.obj) 
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\..\Libraries\seekfree_peripheral\SEEKFREE_WIRELESS.c XSMALL INTR2 FLOA
+                    -T64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\L
+                    -ibraries\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File
+                    -\SEEKFREE_WIRELESS.lst) TABS(2) OBJECT(.\Out_File\SEEKFREE_WIRELESS.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    50   1      }
    51          
    52          //-------------------------------------------------------------------------------------------------------
-C251 COMPILER V5.60.0,  SEEKFREE_WIRELESS                                                  04/03/25  13:23:49  PAGE 2   
+C251 COMPILER V5.60.0,  SEEKFREE_WIRELESS                                                  13/03/25  18:25:08  PAGE 2   
 
              -------------
    53          //  @brief      无线转串口模块发送一个字节
@@ -134,7 +134,7 @@ stmt  level    source
   110          //  @param      len             长度
   111          //  @return     uint32          实际读取字节数
   112          //  Sample usage:
-C251 COMPILER V5.60.0,  SEEKFREE_WIRELESS                                                  04/03/25  13:23:49  PAGE 3   
+C251 COMPILER V5.60.0,  SEEKFREE_WIRELESS                                                  13/03/25  18:25:08  PAGE 3   
 
   113          //-------------------------------------------------------------------------------------------------------
              -------------

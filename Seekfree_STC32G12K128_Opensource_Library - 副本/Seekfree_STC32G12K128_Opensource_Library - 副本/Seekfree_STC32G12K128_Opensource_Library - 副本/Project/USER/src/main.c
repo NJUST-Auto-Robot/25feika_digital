@@ -38,6 +38,7 @@ void main()
     DRV8701_init();
     while(1)
 	{
+		
 		 // 此处编写需要循环执行的代码
     // printf("%d\n,%d\n",L_OUT,R_OUT);
     }

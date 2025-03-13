@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  main                                                               04/03/25  13:23:50  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               13/03/25  18:25:10  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
 OBJECT MODULE PLACED IN .\Out_File\main.obj
-COMPILER INVOKED BY: D:\C251\BIN\C251.EXE ..\USER\src\main.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROW
-                    -SE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\US
-                    -ER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\main.lst) TABS(2) OBJECT(.\Out_File\main.
-                    -obj) 
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\USER\src\main.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED)
+                    - BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;
+                    -..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\main.lst) TABS(2) OBJECT(.\Out_File\
+                    -main.obj) 
 
 stmt  level    source
 
@@ -48,27 +48,28 @@ stmt  level    source
    34   1        
    35   1        // 此处编写用户代码(例如：外设初始化代码等)
    36   1        pit_timer_ms(TIM_2, 5);
-   37   1        
-   38   1        IMU_init(); 
+   37   1          Dir_encoder_init();
+   38   1          DRV8701_init();
    39   1          while(1)
    40   1        {
-   41   2           // 此处编写需要循环执行的代码
-   42   2      //    IMU_text();
-   43   2          }
-   44   1      }
-   45          
+   41   2          
+   42   2           // 此处编写需要循环执行的代码
+   43   2          // printf("%d\n,%d\n",L_OUT,R_OUT);
+   44   2          }
+   45   1      }
+   46          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =        20     ------
+  code size            =        23     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =    ------     ------
-C251 COMPILER V5.60.0,  main                                                               04/03/25  13:23:50  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               13/03/25  18:25:10  PAGE 2   
 
+  xdata size           =    ------     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------

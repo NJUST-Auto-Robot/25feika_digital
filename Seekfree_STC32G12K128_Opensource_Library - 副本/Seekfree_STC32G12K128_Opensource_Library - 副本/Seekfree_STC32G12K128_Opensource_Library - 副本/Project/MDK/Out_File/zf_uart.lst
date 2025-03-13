@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  zf_uart                                                            04/03/25  13:23:45  PAGE 1   
+C251 COMPILER V5.60.0,  zf_uart                                                            13/03/25  18:25:06  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_uart
 OBJECT MODULE PLACED IN .\Out_File\zf_uart.obj
-COMPILER INVOKED BY: D:\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_uart.c XSMALL INTR2 FLOAT64 WARNINGLEVEL
-                    -(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfre
-                    -e_peripheral;..\CODE;..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\zf_uart.lst) TA
-                    -BS(2) OBJECT(.\Out_File\zf_uart.obj) 
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_uart.c XSMALL INTR2 FLOAT64 WARNING
+                    -LEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\se
+                    -ekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\zf_uart.ls
+                    -t) TABS(2) OBJECT(.\Out_File\zf_uart.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    48   1      
    49   1        switch(uart_n)
    50   1        {
-C251 COMPILER V5.60.0,  zf_uart                                                            04/03/25  13:23:45  PAGE 2   
+C251 COMPILER V5.60.0,  zf_uart                                                            13/03/25  18:25:06  PAGE 2   
 
    51   2          case UART_1:
    52   2          {
@@ -134,7 +134,7 @@ stmt  level    source
   114   3            break;
   115   3          }
   116   2          
-C251 COMPILER V5.60.0,  zf_uart                                                            04/03/25  13:23:45  PAGE 3   
+C251 COMPILER V5.60.0,  zf_uart                                                            13/03/25  18:25:06  PAGE 3   
 
   117   2          case UART_3:
   118   2          {
@@ -202,7 +202,7 @@ stmt  level    source
   180   3          }
   181   2          
   182   2        }
-C251 COMPILER V5.60.0,  zf_uart                                                            04/03/25  13:23:45  PAGE 4   
+C251 COMPILER V5.60.0,  zf_uart                                                            13/03/25  18:25:06  PAGE 4   
 
   183   1      
   184   1      }
@@ -270,7 +270,7 @@ stmt  level    source
   241          //  Sample usage:               uart_putstr(UART_1,"i lvoe you"); 
   242          //-------------------------------------------------------------------------------------------------------
              -------------
-C251 COMPILER V5.60.0,  zf_uart                                                            04/03/25  13:23:45  PAGE 5   
+C251 COMPILER V5.60.0,  zf_uart                                                            13/03/25  18:25:06  PAGE 5   
 
   243          void uart_putstr(UARTN_enum uart_n,uint8 *str)
   244          {

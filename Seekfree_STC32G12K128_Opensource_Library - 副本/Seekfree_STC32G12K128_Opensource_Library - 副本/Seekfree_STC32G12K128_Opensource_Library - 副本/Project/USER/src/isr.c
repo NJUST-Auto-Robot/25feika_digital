@@ -137,6 +137,7 @@ void TM2_Isr() interrupt 12
 	TIM2_CLEAR_FLAG;  //清除中断标志
 	Dir_encoder_get();
 	DRV8701_loop_ctrl(100,100);//速度环闭环
+	// DRV8701_ctrl(4000,4000);//开环控制
 }		
 
 void TM3_Isr() interrupt 19

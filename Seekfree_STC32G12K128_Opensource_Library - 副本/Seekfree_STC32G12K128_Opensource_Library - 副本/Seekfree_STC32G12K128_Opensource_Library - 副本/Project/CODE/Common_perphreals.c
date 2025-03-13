@@ -50,8 +50,8 @@ void DRV8701_init(void)
 
 void DRV8701_ctrl(int32 L_speed,int32 R_speed)
 {
-	constrain_float(L_speed,8000,-8000);
-	constrain_float(R_speed,8000,-8000);
+	constrain_float(L_speed,2000,-2000);
+	constrain_float(R_speed,2000,-2000);
 	if(L_speed>=0)
 	{
 			DIR_1 = 0;

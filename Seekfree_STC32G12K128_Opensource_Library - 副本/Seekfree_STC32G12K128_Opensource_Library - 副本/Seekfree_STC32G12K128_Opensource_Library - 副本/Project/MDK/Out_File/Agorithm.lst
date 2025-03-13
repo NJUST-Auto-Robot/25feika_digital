@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  Agorithm                                                           04/03/25  13:23:50  PAGE 1   
+C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  18:25:10  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Agorithm
 OBJECT MODULE PLACED IN .\Out_File\Agorithm.obj
-COMPILER INVOKED BY: D:\C251\BIN\C251.EXE ..\CODE\Agorithm.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROW
-                    -SE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\US
-                    -ER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\Agorithm.lst) TABS(2) OBJECT(.\Out_File\A
-                    -gorithm.obj) 
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\CODE\Agorithm.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED)
+                    - BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;
+                    -..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\Agorithm.lst) TABS(2) OBJECT(.\Out_F
+                    -ile\Agorithm.obj) 
 
 stmt  level    source
 
@@ -18,7 +18,7 @@ stmt  level    source
     6          pid_param_t Nomal_PID;//位置式PID
     7          pid_param_t DJ_PID;//增量式PID
     8          pid_param_t CS_PID;//差速
-    9          
+    9          int16 L_OUT=0,R_OUT=0;
    10          
    11          
    12          /************************************************
@@ -66,7 +66,7 @@ stmt  level    source
    54   1      //    if(pid->out>SERVO_MOTOR_LMAX)
    55   1      //    {pid->out=SERVO_MOTOR_LMAX;}
    56   1      //    if(pid->out<SERVO_MOTOR_RMIN)
-C251 COMPILER V5.60.0,  Agorithm                                                           04/03/25  13:23:50  PAGE 2   
+C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  18:25:10  PAGE 2   
 
    57   1      //    {pid->out=SERVO_MOTOR_RMIN;}
    58   1          return pid->out;
@@ -81,9 +81,9 @@ stmt  level    source
    67          ************************************************/
    68          float PidIncCtrl_L(pid_param_t * pid, float error)
    69          {
-   70   1          DJ_PID.kp=110;
-   71   1          DJ_PID.ki=6;
-   72   1          DJ_PID.kd=5;
+   70   1          DJ_PID.kp=40;
+   71   1          DJ_PID.ki=0.00005;
+   72   1          // DJ_PID.kd=5;
    73   1      
    74   1      
    75   1      
@@ -106,9 +106,9 @@ stmt  level    source
    92          ************************************************/
    93          float PidIncCtrl_R(pid_param_t * pid, float error)
    94          {
-   95   1          DJ_PID.kp=110;
-   96   1          DJ_PID.ki=6;
-   97   1          DJ_PID.kd=5;
+   95   1          DJ_PID.kp=40;
+   96   1          DJ_PID.ki=0.00005;
+   97   1          // DJ_PID.kd=5;
    98   1      
    99   1      
   100   1      
@@ -129,28 +129,27 @@ stmt  level    source
   115           参 数：左期望速度, 右期望速度
   116           返回值：无
   117          ************************************************/
-  118          float L_OUT,R_OUT=0;
-  119          void DRV8701_loop_ctrl(float L_speed,float R_speed)//填入期望速度
-  120          {
-  121   1        L_OUT=PidIncCtrl_L(&DJ_PID,L_speed-templ_pluse);
-  122   1        R_OUT=PidIncCtrl_R(&DJ_PID,R_speed-tempr_pluse);
-C251 COMPILER V5.60.0,  Agorithm                                                           04/03/25  13:23:50  PAGE 3   
+  118          void DRV8701_loop_ctrl(float L_speed,float R_speed)//填入期望速度
+  119          {
+  120   1        L_OUT=PidIncCtrl_L(&DJ_PID,L_speed-templ_pluse);
+  121   1        R_OUT=PidIncCtrl_R(&DJ_PID,R_speed-tempr_pluse);
+  122   1      
+C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  18:25:10  PAGE 3   
 
-  123   1      
-  124   1        DRV8701_ctrl(L_OUT,R_OUT);
-  125   1      }
+  123   1        DRV8701_ctrl(L_OUT,R_OUT);
+  124   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1248     ------
+  code size            =      1234     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       204     ------
+  edata size           =       200     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -158,7 +157,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        24     ------
+  hconst size          =        28     ------
 End of Module Information.
 
 

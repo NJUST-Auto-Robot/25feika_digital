@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  zf_nvic                                                            04/03/25  13:23:45  PAGE 1   
+C251 COMPILER V5.60.0,  zf_nvic                                                            13/03/25  18:25:05  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_nvic
 OBJECT MODULE PLACED IN .\Out_File\zf_nvic.obj
-COMPILER INVOKED BY: D:\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_nvic.c XSMALL INTR2 FLOAT64 WARNINGLEVEL
-                    -(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfre
-                    -e_peripheral;..\CODE;..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\zf_nvic.lst) TA
-                    -BS(2) OBJECT(.\Out_File\zf_nvic.obj) 
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_nvic.c XSMALL INTR2 FLOAT64 WARNING
+                    -LEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\se
+                    -ekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\zf_nvic.ls
+                    -t) TABS(2) OBJECT(.\Out_File\zf_nvic.obj) 
 
 stmt  level    source
 
@@ -67,7 +67,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-C251 COMPILER V5.60.0,  zf_nvic                                                            04/03/25  13:23:45  PAGE 2   
+C251 COMPILER V5.60.0,  zf_nvic                                                            13/03/25  18:25:05  PAGE 2   
 
   code size            =       185     ------
   ecode size           =    ------     ------
