@@ -84,14 +84,6 @@ void Nget_ADC_values_mean_filter(void){
     dg_state.L_r12_real=Nadc_mean_filter_remove_max_min(ADC_P12,10,ADC_12BIT);
     dg_state.L_r13_real=Nadc_mean_filter_remove_max_min(ADC_P13,10,ADC_12BIT);
     dg_state.L_r21_real=Nadc_mean_filter_remove_max_min(ADC_P17,10,ADC_12BIT);
-    dg_state.L_l11_max=Nadc_getmax(ADC_P10,10,ADC_12BIT);
-    dg_state.L_l12_max=Nadc_getmax(ADC_P15,10,ADC_12BIT);
-    dg_state.L_l13_max=Nadc_getmax(ADC_P14,10,ADC_12BIT);
-    dg_state.L_l21_max=Nadc_getmax(ADC_P11,10,ADC_12BIT);
-    dg_state.L_r11_max=Nadc_getmax(ADC_P16,10,ADC_12BIT);
-    dg_state.L_r12_max=Nadc_getmax(ADC_P12,10,ADC_12BIT);
-    dg_state.L_r13_max=Nadc_getmax(ADC_P13,10,ADC_12BIT);
-    dg_state.L_r21_max=Nadc_getmax(ADC_P17,10,ADC_12BIT);
 }
 /************************************************
 函数名：Nadc_normalization_once

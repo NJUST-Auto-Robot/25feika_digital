@@ -58,5 +58,6 @@
 #include "BD_ctrl.h"
 #include "Agorithm.h"
 #include "Common_perphreals.h"
+#include "ADC.h"
 
 #endif

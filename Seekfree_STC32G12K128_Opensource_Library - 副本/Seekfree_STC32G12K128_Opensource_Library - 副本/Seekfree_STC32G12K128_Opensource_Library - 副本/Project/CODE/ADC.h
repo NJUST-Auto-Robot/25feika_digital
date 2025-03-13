@@ -48,7 +48,6 @@ typedef struct
 
 }adc_state;	
 extern adc_state dg_state;
-extern uint16  m;
 void Nadc_init(void);//初始化
 void Nadc_normalization_max(void);//读取最大值
 void Nadc_normalization_once(void);//归一化

@@ -26,7 +26,7 @@ void Nelement_recogniz(void)
     /*以下为直线识别部分*/
     int stra = error_11 + error_12 + error_21;
     int stra = stra / 3;
-    if (0 < dg_state.L_r13_once < 2 && 0 < stra < 2)
+    if (98 < dg_state.L_r13_once < 102 && -2 < stra < 2)
     {
         flag = STRIAGHT;
     }

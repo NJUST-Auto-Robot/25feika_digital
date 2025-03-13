@@ -115,7 +115,6 @@ float PidIncCtrl_R(pid_param_t * pid, float error)
  参 数：左期望速度, 右期望速度
  返回值：无
 ************************************************/
-float L_OUT,R_OUT=0;
 void DRV8701_loop_ctrl(float L_speed,float R_speed)//填入期望速度
 {
 	L_OUT=PidIncCtrl_L(&DJ_PID,L_speed-templ_pluse);

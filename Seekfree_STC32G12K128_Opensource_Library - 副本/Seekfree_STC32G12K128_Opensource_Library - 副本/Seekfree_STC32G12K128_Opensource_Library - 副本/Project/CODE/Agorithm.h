@@ -28,8 +28,6 @@ extern pid_param_t DJ_PID;
 extern pid_param_t CS_PID;
 
 float constrain_float(float amt, float low, float high);
-float Sqrt_Fast(float x);
-
 float PidLocCtrl(pid_param_t * pid, float error);
 float PidIncCtrl_L(pid_param_t * pid, float error);
 float PidIncCtrl_R(pid_param_t * pid, float error);

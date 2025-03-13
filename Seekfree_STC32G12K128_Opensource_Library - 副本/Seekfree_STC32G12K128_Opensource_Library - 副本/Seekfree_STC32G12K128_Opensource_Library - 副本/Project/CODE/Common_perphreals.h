@@ -8,10 +8,10 @@
 #define SPEEDR_DIR     P53
 
 //¶¨ÒåDRV8701Òý½Å
-#define DIR_1 P64
-#define DIR_2 P60
-#define PWM_1 PWMA_CH4P_P66
-#define PWM_2 PWMA_CH2P_P62
+#define DIR_1 P27
+#define DIR_2 P21
+#define PWM_1 PWMA_CH4P_P26
+#define PWM_2 PWMA_CH1P_P20
 
 extern int16 templ_pluse;
 extern int16 tempr_pluse;
