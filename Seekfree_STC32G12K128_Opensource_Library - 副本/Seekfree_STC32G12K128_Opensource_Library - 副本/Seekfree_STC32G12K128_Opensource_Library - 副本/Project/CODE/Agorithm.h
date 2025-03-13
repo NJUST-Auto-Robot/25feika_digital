@@ -26,6 +26,7 @@ extern int32 TIM_1_flag;
 extern pid_param_t Nomal_PID;
 extern pid_param_t DJ_PID;
 extern pid_param_t CS_PID;
+extern int16 L_OUT,R_OUT;
 
 float constrain_float(float amt, float low, float high);
 float PidLocCtrl(pid_param_t * pid, float error);

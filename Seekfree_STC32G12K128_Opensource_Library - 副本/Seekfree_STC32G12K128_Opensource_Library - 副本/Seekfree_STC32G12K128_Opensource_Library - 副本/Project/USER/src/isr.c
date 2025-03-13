@@ -148,8 +148,6 @@ void TM3_Isr() interrupt 19
 void TM4_Isr() interrupt 20
 {
 	TIM4_CLEAR_FLAG; //清除中断标志
-	ccd_collect();	 //CCD采集数据
-
 }
 
 //void  INT0_Isr()  interrupt 0;

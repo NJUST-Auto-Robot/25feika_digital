@@ -5,7 +5,7 @@
 #define SPEEDR_PLUSE   CTIM3_P04
 //定义方向引脚
 #define SPEEDL_DIR     P35
-#define SPEEDR_DIR     P53
+#define SPEEDR_DIR     P06
 
 //定义DRV8701引脚
 #define DIR_1 P27
@@ -17,7 +17,7 @@ extern int16 templ_pluse;
 extern int16 tempr_pluse;
 
 
-void Encoder_init(void);
+void Dir_encoder_init(void);
 void Dir_encoder_get(void);
 
 void DRV8701_init(void);

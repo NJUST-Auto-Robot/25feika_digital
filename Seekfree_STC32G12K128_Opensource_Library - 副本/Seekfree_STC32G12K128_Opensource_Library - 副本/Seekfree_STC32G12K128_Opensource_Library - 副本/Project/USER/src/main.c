@@ -34,11 +34,12 @@ void main()
 	
 	// 此处编写用户代码(例如：外设初始化代码等)
 	pit_timer_ms(TIM_2, 5);
-
+    Dir_encoder_init();
+    DRV8701_init();
     while(1)
 	{
 		 // 此处编写需要循环执行的代码
-
+    // printf("%d\n,%d\n",L_OUT,R_OUT);
     }
 }
 
