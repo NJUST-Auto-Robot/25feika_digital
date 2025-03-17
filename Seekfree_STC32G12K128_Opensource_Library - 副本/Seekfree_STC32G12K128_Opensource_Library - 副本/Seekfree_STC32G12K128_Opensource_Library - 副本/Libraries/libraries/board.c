@@ -174,6 +174,7 @@ void board_init(void)
 	TMOD = 0;
 
 	uart_init(DEBUG_UART, DEBUG_UART_RX_PIN, DEBUG_UART_TX_PIN, DEBUG_UART_BAUD, DEBUG_UART_TIM);
+	uart_init(UART_3, UART3_RX_P00, UART3_TX_P01, 115200, TIM_2);
 	EnableGlobalIRQ();
 }
 
@@ -182,7 +183,7 @@ void board_init(void)
 //重定义printf 数字 只能输出uint16
 char putchar(char c)
 {
-	uart_putchar(DEBUG_UART, c);//把自己实现的串口打印一字节数据的函数替换到这里
+	uart_putchar(UART_3, c);//把自己实现的串口打印一字节数据的函数替换到这里
 
 	return c;
 }

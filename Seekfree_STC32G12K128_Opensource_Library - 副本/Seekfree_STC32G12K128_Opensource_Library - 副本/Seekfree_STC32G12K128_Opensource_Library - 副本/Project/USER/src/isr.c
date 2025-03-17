@@ -131,13 +131,12 @@ void TM0_Isr() interrupt 1
 void TM1_Isr() interrupt 3
 {
 
+	
 }
 void TM2_Isr() interrupt 12
 {
 	TIM2_CLEAR_FLAG;  //清除中断标志
-	Dir_encoder_get();
-	DRV8701_loop_ctrl(100,100);//速度环闭环
-	// DRV8701_ctrl(4000,4000);//开环控制
+
 }		
 
 void TM3_Isr() interrupt 19
@@ -149,6 +148,8 @@ void TM3_Isr() interrupt 19
 void TM4_Isr() interrupt 20
 {
 	TIM4_CLEAR_FLAG; //清除中断标志
+	Dir_encoder_get();
+	DRV8701_loop_ctrl(100,100);//速度环闭环
 }
 
 //void  INT0_Isr()  interrupt 0;

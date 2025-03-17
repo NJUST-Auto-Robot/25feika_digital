@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 1   
+C251 COMPILER V5.60.0,  ADC                                                                17/03/25  18:55:28  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ADC
@@ -66,7 +66,7 @@ stmt  level    source
    51          /************************************************
    52          函数名：Nadc_getmax
    53          功  能：adc读取最大值，以便后面归一化处理
-C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 2   
+C251 COMPILER V5.60.0,  ADC                                                                17/03/25  18:55:28  PAGE 2   
 
    54          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
    55          返回值：max adc读取到的最大值
@@ -134,7 +134,7 @@ stmt  level    source
   117          参  数：void
   118          返回值：void
   119          ************************************************/
-C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 3   
+C251 COMPILER V5.60.0,  ADC                                                                17/03/25  18:55:28  PAGE 3   
 
   120          void Nadc_normalization_max(void){
   121   1        dg_state.L_l13_max=Nadc_getmax(ADC_P14,10,ADC_12BIT);
@@ -202,7 +202,7 @@ stmt  level    source
   183          
   184          
   185          
-C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 4   
+C251 COMPILER V5.60.0,  ADC                                                                17/03/25  18:55:28  PAGE 4   
 
   186          
   187          
@@ -270,7 +270,7 @@ stmt  level    source
   249          
   250          
   251          
-C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 5   
+C251 COMPILER V5.60.0,  ADC                                                                17/03/25  18:55:28  PAGE 5   
 
   252          
   253          

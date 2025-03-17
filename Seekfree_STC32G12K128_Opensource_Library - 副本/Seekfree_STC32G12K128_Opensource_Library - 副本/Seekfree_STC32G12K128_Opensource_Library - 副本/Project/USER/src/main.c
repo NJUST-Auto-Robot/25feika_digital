@@ -27,20 +27,23 @@
  * 如果需要使用P54引脚,可以在board.c文件中的board_init()函数中删除SET_P54_RESRT即可
  */
 
-
+ uint8 buffer[30];
 void main()
 {
 	board_init();			// 初始化寄存器,勿删除此句代码。
 	
 	// 此处编写用户代码(例如：外设初始化代码等)
-	pit_timer_ms(TIM_2, 5);
+    pit_timer_ms(TIM_4, 5);
     Dir_encoder_init();
     DRV8701_init();
+    delay_init();
     while(1)
 	{
-		
+        // printf("L_OUT:%d\n",L_OUT);
+        printf("R_OUT:%d\n",R_OUT);
+        delay_ms(50);
 		 // 此处编写需要循环执行的代码
-    // printf("%d\n,%d\n",L_OUT,R_OUT);
+
     }
 }
 

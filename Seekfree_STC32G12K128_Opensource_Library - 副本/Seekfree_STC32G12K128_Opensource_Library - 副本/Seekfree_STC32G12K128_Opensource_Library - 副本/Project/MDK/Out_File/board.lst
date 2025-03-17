@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  board                                                              13/03/25  22:40:27  PAGE 1   
+C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE board
@@ -66,7 +66,7 @@ stmt  level    source
    50   2          //选择 22.1184MHz
    51   2          CLKDIV = 0x04;
    52   2          IRTRIM = T22M_ADDR;
-C251 COMPILER V5.60.0,  board                                                              13/03/25  22:40:27  PAGE 2   
+C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 2   
 
    53   2          VRTRIM = VRT27M_ADDR;
    54   2          IRCBAND = 0x02;
@@ -134,7 +134,7 @@ stmt  level    source
   116          
   117          
   118          
-C251 COMPILER V5.60.0,  board                                                              13/03/25  22:40:27  PAGE 3   
+C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 3   
 
   119          
   120          
@@ -194,38 +194,39 @@ stmt  level    source
   174   1        TMOD = 0;
   175   1      
   176   1        uart_init(DEBUG_UART, DEBUG_UART_RX_PIN, DEBUG_UART_TX_PIN, DEBUG_UART_BAUD, DEBUG_UART_TIM);
-  177   1        EnableGlobalIRQ();
-  178   1      }
-  179          
+  177   1        uart_init(UART_3, UART3_RX_P00, UART3_TX_P01, 115200, TIM_2);
+  178   1        EnableGlobalIRQ();
+  179   1      }
   180          
-  181          #if (1 == PRINTF_ENABLE)      //初始化调试串口
-  182          //重定义printf 数字 只能输出uint16
-  183          char putchar(char c)
-  184          {
-C251 COMPILER V5.60.0,  board                                                              13/03/25  22:40:27  PAGE 4   
+  181          
+  182          #if (1 == PRINTF_ENABLE)      //初始化调试串口
+  183          //重定义printf 数字 只能输出uint16
+  184          char putchar(char c)
+C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 4   
 
-  185   1        uart_putchar(DEBUG_UART, c);//把自己实现的串口打印一字节数据的函数替换到这里
-  186   1      
-  187   1        return c;
-  188   1      }
-  189          #endif
-  190          
-  191          void DisableGlobalIRQ(void)
-  192          {
-  193   1        EA = 0;
-  194   1      }
-  195          
+  185          {
+  186   1        uart_putchar(UART_3, c);//把自己实现的串口打印一字节数据的函数替换到这里
+  187   1      
+  188   1        return c;
+  189   1      }
+  190          #endif
+  191          
+  192          void DisableGlobalIRQ(void)
+  193          {
+  194   1        EA = 0;
+  195   1      }
   196          
-  197          void EnableGlobalIRQ(void)
-  198          {
-  199   1        EA = 1;
-  200   1      }
-  201          
+  197          
+  198          void EnableGlobalIRQ(void)
+  199          {
+  200   1        EA = 1;
+  201   1      }
+  202          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       695     ------
+  code size            =       728     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
