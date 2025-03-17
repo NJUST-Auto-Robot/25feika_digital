@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Common_perphreals                                                  13/03/25  18:25:10  PAGE 1   
+C251 COMPILER V5.60.0,  Common_perphreals                                                  13/03/25  22:40:34  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Common_perphreals
@@ -66,7 +66,7 @@ stmt  level    source
    51          void DRV8701_ctrl(int32 L_speed,int32 R_speed)
    52          {
    53   1        constrain_float(L_speed,2000,-2000);
-C251 COMPILER V5.60.0,  Common_perphreals                                                  13/03/25  18:25:10  PAGE 2   
+C251 COMPILER V5.60.0,  Common_perphreals                                                  13/03/25  22:40:34  PAGE 2   
 
    54   1        constrain_float(R_speed,2000,-2000);
    55   1        if(L_speed>=0)

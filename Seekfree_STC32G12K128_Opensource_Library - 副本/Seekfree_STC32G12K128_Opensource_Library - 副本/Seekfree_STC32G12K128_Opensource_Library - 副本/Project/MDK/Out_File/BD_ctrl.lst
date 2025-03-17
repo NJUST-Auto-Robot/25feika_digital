@@ -1,28 +1,128 @@
-C251 COMPILER V5.60.0,  BD_ctrl                                                            03/03/25  18:57:20  PAGE 1   
+C251 COMPILER V5.60.0,  BD_ctrl                                                            13/03/25  22:40:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE BD_ctrl
 OBJECT MODULE PLACED IN .\Out_File\BD_ctrl.obj
-COMPILER INVOKED BY: D:\C251\BIN\C251.EXE ..\CODE\BD_ctrl.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWS
-                    -E INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USE
-                    -R\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\BD_ctrl.lst) TABS(2) OBJECT(.\Out_File\BD_
-                    -ctrl.obj) 
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\CODE\BD_ctrl.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
+                    -.\USER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\BD_ctrl.lst) TABS(2) OBJECT(.\Out_Fil
+                    -e\BD_ctrl.obj) 
 
 stmt  level    source
 
-    1          #include "headfile.h"
+    1          /********************************************************************************************************
+             -*************
+    2           * @author        Niko
+    3           * @Target core   STC32G12K128
+    4           * @date          2025-3-6
+    5           * @brief           此库为元素识别库，后续控制在主函数中进行
+    6           * @Last editor     Niko
+    7           ********************************************************************************************************
+             -************/
+    8          
+    9          #include "headfile.h"
+   10          #include "BD_ctrl.h"
+   11          
+   12           int flag = 0;
+   13          /************************************************
+   14           函数名：Nelement_recogniz
+   15           功 能：元素识别函数
+   16           参 数：void
+   17           返回值：void
+   18          ************************************************/
+   19          void Nelement_recogniz(void)
+   20          {
+   21   1       int temp_r11 = dg_state.L_r11_once;
+   22   1       int temp_r12 = dg_state.L_r12_once;
+   23   1       int temp_r21 = dg_state.L_r21_once;
+   24   1       int temp_l11 = dg_state.L_l11_once;
+   25   1       int temp_l12 = dg_state.L_l12_once;
+   26   1       int temp_l21 = dg_state.L_l21_once;
+   27   1       int error_11 = dg_state.L_l11_once - dg_state.L_r11_once;
+   28   1       int error_21 = dg_state.L_l21_once - dg_state.L_r21_once;
+   29   1       int error_12 = dg_state.L_l12_once - dg_state.L_r12_once;
+   30   1       int stra = error_11 + error_12 + error_21;
+   31   1           stra = stra / 3;
+   32   1          Nadc_normalization_once();
+   33   1          /*以下为直线识别部分*/
+   34   1          if (98 < dg_state.L_r13_once < 102 && -2 < stra < 2)
+   35   1          {
+   36   2              flag = STRIAGHT;
+   37   2          }
+   38   1          /*以下为十字路口识别部分*/
+   39   1          if (90<dg_state.L_r13_once<100&&90<dg_state.L_l13_once<100&&-2 <error_11 < 2 && -2 <error_12 < 2&&-2 
+             -<error_21 < 2)
+   40   1          {
+   41   2              flag = Crossroads;
+   42   2          }
+   43   1          /*以下为直角弯道识别部分*/
+   44   1          if ( dg_state.L_l13_once >85&& dg_state.L_r13_once > 85)
+   45   1          {
+   46   2              if (error_11 > 90 && error_21 > 90 && error_12 > 80)
+   47   2              {
+   48   3                  flag = TurnLeft;
+   49   3              }
+   50   2              else if (error_11 <-90 && error_21 <-90 && error_12 <-80)
+   51   2              {
+   52   3                  flag = TurnRight;
+   53   3              }
+C251 COMPILER V5.60.0,  BD_ctrl                                                            13/03/25  22:40:35  PAGE 2   
+
+   54   2              
+   55   2      }
+   56   1      /*以下为锐角弯道识别部分*/
+   57   1          if ( 5<dg_state.L_l13_once <90&& dg_state.L_r13_once > 90)
+   58   1          {
+   59   2          if (5<error_11 < 90 && 5<error_21 < 90 && 5<error_12 <80)
+   60   2          {
+   61   3              flag = AngleLeft;
+   62   3          }
+   63   2          else  if (-90<error_11 < -5 && -90<error_21 < -5 && -80<error_12 <-5)
+   64   2          {
+   65   3              flag = AngleRight;
+   66   3          }
+   67   2      }
+   68   1      
+   69   1      /*以下为环岛识别部分*/
+   70   1      if ((dg_state.L_r13_once > 180) && dg_state.L_l13_once > 50)//接近环岛出入点
+   71   1      {
+   72   2      Nadc_normalization_once();}
+   73   1      //进入环岛
+   74   1      if ((temp_l11-=dg_state.L_l11_once)>30&&(temp_l12-=dg_state.L_l12_once)>20&&(temp_l21-=dg_state.L_l21_onc
+             -e>10))
+   75   1      {
+   76   2          flag = InRoundaboutL;
+   77   2      }
+   78   1      if ((temp_r11-=dg_state.L_r11_once)>30&&(temp_r12-=dg_state.L_r12_once)>20&&(temp_r21-=dg_state.L_r21_onc
+             -e>10))
+   79   1      {
+   80   2          flag = InRoundaboutR;
+   81   2      }
+   82   1      //离开环岛
+   83   1      // if (temp_l11-=dg_state.l11_once<-30&&temp_l12-=dg_state.l12_once<-20&&temp_l21-=dg_state.l21_once<-10)
+   84   1      // {
+   85   1      //     flag = OutRoundaboutL;
+   86   1      // }
+   87   1      // if (temp_r11-=dg_state.r11_once<-30&&temp_r12-=dg_state.r12_once<-20&&temp_r21-=dg_state.r21_once<-10)
+   88   1      // {
+   89   1      //     flag = OutRoundaboutR;
+   90   1      }
+   91          
+   92          
+   93          
+   94          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =    ------     ------
+  code size            =       983     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =    ------     ------
+  edata size           =        22     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -30,7 +130,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =    ------     ------
+  hconst size          =         6     ------
 End of Module Information.
 
 

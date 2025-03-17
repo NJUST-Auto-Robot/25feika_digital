@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               13/03/25  18:25:10  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               13/03/25  22:40:33  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -67,7 +67,7 @@ Module Information          Static   Overlayable
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-C251 COMPILER V5.60.0,  main                                                               13/03/25  18:25:10  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               13/03/25  22:40:33  PAGE 2   
 
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------

@@ -764,6 +764,16 @@
               <FileType>5</FileType>
               <FilePath>..\CODE\Imu_1.h</FilePath>
             </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>BD_ctrl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\BD_ctrl.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

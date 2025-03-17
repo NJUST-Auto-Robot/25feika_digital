@@ -1,0 +1,329 @@
+C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE ADC
+OBJECT MODULE PLACED IN .\Out_File\ADC.obj
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\CODE\ADC.c XSMALL INTR2 FLOAT64 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROW
+                    -SE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\US
+                    -ER\inc;..\USER\src;..\..\Libraries\seekfree_components) DEBUG PRINT(.\Out_File\ADC.lst) TABS(2) OBJECT(.\Out_File\ADC.ob
+                    -j) 
+
+stmt  level    source
+
+    1          /********************************************************************************************************
+             -*************
+    2           * @author        Niko
+    3           * @Target core   STC32G12K128
+    4           * @date          2025-3-6
+    5           * @brief           此库只负责ADC初始化、数据读取以及数据处理，后续控制请参考B
+             -D_ctrl
+    6           * @Last editor     Niko
+    7           ********************************************************************************************************
+             -************/
+    8          #include "headfile.h"
+    9          #include "ADC.h"
+   10          adc_state dg_state;
+   11          /************************************************
+   12          函数名：Nadc_init
+   13          功  能：一键式初始化adc引脚,默认adc时钟频率为sysclk/2
+   14          参  数：void
+   15          返回值：void
+   16          ************************************************/
+   17          void Nadc_init(void){
+   18   1          adc_init(ADC_P10,ADC_SYSclk_DIV_2);
+   19   1          adc_init(ADC_P11,ADC_SYSclk_DIV_2);
+   20   1          adc_init(ADC_P12,ADC_SYSclk_DIV_2);
+   21   1          adc_init(ADC_P13,ADC_SYSclk_DIV_2);
+   22   1          adc_init(ADC_P14,ADC_SYSclk_DIV_2);
+   23   1          adc_init(ADC_P15,ADC_SYSclk_DIV_2);
+   24   1          adc_init(ADC_P16,ADC_SYSclk_DIV_2);
+   25   1          adc_init(ADC_P17,ADC_SYSclk_DIV_2);
+   26   1      }
+   27          /************************************************
+   28          函数名：Nadc_mean_filter_remove_max_min
+   29          功  能：adc均值滤波去除最大值和最小值
+   30          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
+   31          返回值：adc_value 去除最大值和最小值之后的adc均值
+   32          ************************************************/
+   33          uint16 Nadc_mean_filter_remove_max_min(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
+   34          {
+   35   1        uint8 i;
+   36   1        uint16 adc_value = 0;
+   37   1        uint16 max = 0,min = 4096;
+   38   1        uint16 dat = 0;
+   39   1        for (i = 0;i < count + 2;i++)
+   40   1        {
+   41   2          dat = adc_once(adcn,resolution);//使用变量dat读取一次ADC即可，避免多次读取ADC
+   42   2          adc_value += dat;
+   43   2          if(max < dat)
+   44   2            max = dat;
+   45   2          if(min > dat)
+   46   2            min = dat;
+   47   2        }
+   48   1        adc_value = (adc_value - max - min)/ count;
+   49   1        return adc_value;
+   50   1      }
+   51          /************************************************
+   52          函数名：Nadc_getmax
+   53          功  能：adc读取最大值，以便后面归一化处理
+C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 2   
+
+   54          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
+   55          返回值：max adc读取到的最大值
+   56          ************************************************/
+   57          uint16 Nadc_getmax(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
+   58          {
+   59   1        uint8 i;
+   60   1        uint16 adc_value = 0;
+   61   1        uint16 max = 0;
+   62   1        uint16 dat = 0;
+   63   1        for (i = 0;i < count + 2;i++)
+   64   1        {
+   65   2          dat = adc_once(adcn,resolution);//使用变量dat读取一次ADC即可，避免多次读取ADC
+   66   2          adc_value += dat;
+   67   2          if(max < dat)
+   68   2            max = dat;
+   69   2          }
+   70   1          return max;
+   71   1      }
+   72          /************************************************
+   73          函数名：Nget_ADC_values_mean_filter
+   74          功  能：用均值滤波法一键读取所有所需电感值，adc分辨率默认12bit
+   75          参  数：void
+   76          返回值：void
+   77          ************************************************/
+   78          void Nget_ADC_values_mean_filter(void){
+   79   1          dg_state.L_l11_real=Nadc_mean_filter_remove_max_min(ADC_P10,10,ADC_12BIT);
+   80   1          dg_state.L_l12_real=Nadc_mean_filter_remove_max_min(ADC_P15,10,ADC_12BIT);
+   81   1          dg_state.L_l13_real=Nadc_mean_filter_remove_max_min(ADC_P14,10,ADC_12BIT);
+   82   1          dg_state.L_l21_real=Nadc_mean_filter_remove_max_min(ADC_P11,10,ADC_12BIT);
+   83   1          dg_state.L_r11_real=Nadc_mean_filter_remove_max_min(ADC_P16,10,ADC_12BIT);
+   84   1          dg_state.L_r12_real=Nadc_mean_filter_remove_max_min(ADC_P12,10,ADC_12BIT);
+   85   1          dg_state.L_r13_real=Nadc_mean_filter_remove_max_min(ADC_P13,10,ADC_12BIT);
+   86   1          dg_state.L_r21_real=Nadc_mean_filter_remove_max_min(ADC_P17,10,ADC_12BIT);
+   87   1      }
+   88          /************************************************
+   89          函数名：Nadc_normalization_once
+   90          功  能：将所得电感值进行第一次归一化
+   91          参  数：void
+   92          返回值：void
+   93          ************************************************/
+   94          void Nadc_normalization_once(void){
+   95   1          Nget_ADC_values_mean_filter();
+   96   1          dg_state.L_l11_once = ((float)dg_state.L_l11_real) * 100 / dg_state.L_l11_max;
+   97   1        dg_state.L_l12_once = ((float)dg_state.L_l12_real) * 100 / dg_state.L_l12_max;
+   98   1        dg_state.L_l13_once = ((float)dg_state.L_l13_real) * 100 / dg_state.L_l13_max;
+   99   1        dg_state.L_l21_once = ((float)dg_state.L_l21_real) * 100 / dg_state.L_l21_max;
+  100   1        dg_state.L_r11_once = ((float)dg_state.L_r11_real) * 100 / dg_state.L_r11_max;
+  101   1        dg_state.L_r12_once = ((float)dg_state.L_r12_real) * 100 / dg_state.L_r12_max;
+  102   1        dg_state.L_r13_once = ((float)dg_state.L_r13_real) * 100 / dg_state.L_r13_max;
+  103   1        dg_state.L_r21_once = ((float)dg_state.L_r21_real) * 100 / dg_state.L_r21_max;
+  104   1      
+  105   1        dg_state.L_l11_once = constrain_float(dg_state.L_l11_once,0,210);//限幅0-100
+  106   1        dg_state.L_l12_once = constrain_float(dg_state.L_l12_once,0,210);//限幅0-100
+  107   1        dg_state.L_l13_once = constrain_float(dg_state.L_l13_once,0,210);//限幅0-100
+  108   1        dg_state.L_l21_once = constrain_float(dg_state.L_l21_once,0,210);//限幅0-100
+  109   1        dg_state.L_r11_once = constrain_float(dg_state.L_r11_once,0,210);//限幅0-100
+  110   1        dg_state.L_r12_once = constrain_float(dg_state.L_r12_once,0,210);//限幅0-100
+  111   1        dg_state.L_r13_once = constrain_float(dg_state.L_r13_once,0,210);//限幅0-100
+  112   1          dg_state.L_r21_once = constrain_float(dg_state.L_r21_once,0,210);//限幅0-100
+  113   1      }
+  114          /************************************************
+  115          函数名：Nadc_normalization_max
+  116          功  能：读取场地最大电感值以便后续归一化
+  117          参  数：void
+  118          返回值：void
+  119          ************************************************/
+C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 3   
+
+  120          void Nadc_normalization_max(void){
+  121   1        dg_state.L_l13_max=Nadc_getmax(ADC_P14,10,ADC_12BIT);
+  122   1        dg_state.L_l11_max=dg_state.L_l13_max;
+  123   1          dg_state.L_l12_max=dg_state.L_l13_max;
+  124   1          dg_state.L_l21_max=dg_state.L_l13_max;
+  125   1          dg_state.L_r11_max=dg_state.L_l13_max;
+  126   1          dg_state.L_r12_max=dg_state.L_l13_max;
+  127   1          dg_state.L_r13_max=dg_state.L_l13_max;
+  128   1          dg_state.L_r21_max=dg_state.L_l13_max;
+  129   1      }
+  130          
+  131          
+  132          
+  133          
+  134          
+  135          
+  136          
+  137          
+  138          
+  139          
+  140          
+  141          
+  142          
+  143          
+  144          
+  145          
+  146          
+  147          
+  148          
+  149          
+  150          
+  151          
+  152          
+  153          
+  154          
+  155          
+  156          
+  157          
+  158          
+  159          
+  160          
+  161          
+  162          
+  163          
+  164          
+  165          
+  166          
+  167          
+  168          
+  169          
+  170          
+  171          
+  172          
+  173          
+  174          
+  175          
+  176          
+  177          
+  178          
+  179          
+  180          
+  181          
+  182          
+  183          
+  184          
+  185          
+C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 4   
+
+  186          
+  187          
+  188          
+  189          
+  190          
+  191          
+  192          
+  193          
+  194          
+  195          
+  196          
+  197          
+  198          
+  199          
+  200          
+  201          
+  202          
+  203          
+  204          
+  205          
+  206          
+  207          
+  208          
+  209          
+  210          
+  211          
+  212          
+  213          
+  214          
+  215          
+  216          
+  217          
+  218          
+  219          
+  220          
+  221          
+  222          
+  223          
+  224          
+  225          
+  226          
+  227          
+  228          
+  229          
+  230          
+  231          
+  232          
+  233          
+  234          
+  235          
+  236          
+  237          
+  238          
+  239          
+  240          
+  241          
+  242          
+  243          
+  244          
+  245          
+  246          
+  247          
+  248          
+  249          
+  250          
+  251          
+C251 COMPILER V5.60.0,  ADC                                                                13/03/25  22:40:35  PAGE 5   
+
+  252          
+  253          
+  254          
+  255          
+  256          
+  257          
+  258          
+  259          
+  260          
+  261          
+  262          
+  263          
+  264          
+  265          
+  266          
+  267          
+  268          
+  269          
+  270          
+  271          
+  272          
+  273          
+  274          
+  275          
+  276          
+  277          
+  278          
+  279          
+  280          
+  281          
+  282          
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =      1054     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =       122     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

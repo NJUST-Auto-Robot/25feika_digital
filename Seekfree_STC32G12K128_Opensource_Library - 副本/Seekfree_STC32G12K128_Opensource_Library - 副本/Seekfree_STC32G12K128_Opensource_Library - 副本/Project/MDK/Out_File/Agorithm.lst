@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  18:25:10  PAGE 1   
+C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  22:40:34  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Agorithm
@@ -66,7 +66,7 @@ stmt  level    source
    54   1      //    if(pid->out>SERVO_MOTOR_LMAX)
    55   1      //    {pid->out=SERVO_MOTOR_LMAX;}
    56   1      //    if(pid->out<SERVO_MOTOR_RMIN)
-C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  18:25:10  PAGE 2   
+C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  22:40:34  PAGE 2   
 
    57   1      //    {pid->out=SERVO_MOTOR_RMIN;}
    58   1          return pid->out;
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        L_OUT=PidIncCtrl_L(&DJ_PID,L_speed-templ_pluse);
   121   1        R_OUT=PidIncCtrl_R(&DJ_PID,R_speed-tempr_pluse);
   122   1      
-C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  18:25:10  PAGE 3   
+C251 COMPILER V5.60.0,  Agorithm                                                           13/03/25  22:40:34  PAGE 3   
 
   123   1        DRV8701_ctrl(L_OUT,R_OUT);
   124   1      }

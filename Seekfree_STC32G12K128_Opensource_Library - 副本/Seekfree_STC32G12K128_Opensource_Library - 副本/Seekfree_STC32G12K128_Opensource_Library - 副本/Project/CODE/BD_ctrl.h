@@ -12,6 +12,15 @@
 #include "headfile.h"
 
 
-
-extern int flag;
+typedef enum 
+{
+    STRIAGHT,
+    Crossroads,
+    TurnLeft,
+    TurnRight,
+    AngleLeft,
+    AngleRight,
+    InRoundaboutL,
+    InRoundaboutR,
+}flag_enum;
  #endif
