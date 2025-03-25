@@ -14,9 +14,9 @@ int16 tempr_pluse = 0;
 void Dir_encoder_get(void)
 {
 		//读取采集到的编码器脉冲数
-		templ_pluse = ctimer_count_read(SPEEDL_PLUSE);
-		tempr_pluse = ctimer_count_read(SPEEDR_PLUSE);
 
+		tempr_pluse = ctimer_count_read(SPEEDR_PLUSE);
+        templ_pluse = ctimer_count_read(SPEEDL_PLUSE);
 		//计数器清零
 		ctimer_count_clean(SPEEDL_PLUSE);
 		ctimer_count_clean(SPEEDR_PLUSE);
@@ -27,7 +27,7 @@ void Dir_encoder_get(void)
             templ_pluse = -templ_pluse;
         }
 
-		if(1 == SPEEDR_DIR)    
+		if(0 == SPEEDR_DIR)    
         {
             tempr_pluse = -tempr_pluse;
         }
@@ -50,8 +50,8 @@ void DRV8701_init(void)
 
 void DRV8701_ctrl(int32 L_speed,int32 R_speed)
 {
-	constrain_float(L_speed,2000,-2000);
-	constrain_float(R_speed,2000,-2000);
+	// L_speed=constrain_float(L_speed,8000,-8000);
+	// R_speed=constrain_float(R_speed,8000,-8000);
 	if(L_speed>=0)
 	{
 			DIR_1 = 0;

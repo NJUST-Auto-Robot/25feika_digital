@@ -774,6 +774,11 @@
               <FileType>1</FileType>
               <FilePath>..\CODE\BD_ctrl.c</FilePath>
             </File>
+            <File>
+              <FileName>action.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\action.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

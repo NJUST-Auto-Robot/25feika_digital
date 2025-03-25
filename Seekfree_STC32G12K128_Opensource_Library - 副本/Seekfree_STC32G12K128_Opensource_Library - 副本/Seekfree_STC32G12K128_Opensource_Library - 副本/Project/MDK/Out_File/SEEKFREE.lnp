@@ -38,7 +38,8 @@
 ".\Out_File\Common_perphreals.obj",
 ".\Out_File\Imu_1.obj",
 ".\Out_File\ADC.obj",
-".\Out_File\BD_ctrl.obj" 
+".\Out_File\BD_ctrl.obj",
+".\Out_File\action.obj" 
 TO ".\Out_File\SEEKFREE" 
 PRINT(".\Out_File\SEEKFREE.map") CASE DISABLEWARNING (15,16,57) 
 REMOVEUNUSED 

@@ -19,7 +19,6 @@ extern int16 tempr_pluse;
 
 void Dir_encoder_init(void);
 void Dir_encoder_get(void);
-
 void DRV8701_init(void);
 void DRV8701_ctrl(int32 L_speed,int32 R_speed);
 void DRV8701_loop_ctrl(float L_speed,float R_speed);

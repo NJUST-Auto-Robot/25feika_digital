@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Agorithm                                                           17/03/25  18:55:27  PAGE 1   
+C251 COMPILER V5.60.0,  Agorithm                                                           24/03/25  23:39:16  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Agorithm
@@ -16,140 +16,153 @@ stmt  level    source
     4          int32 TIM_1_flag=0;
     5          
     6          pid_param_t Nomal_PID;//位置式PID
-    7          pid_param_t DJ_PID;//增量式PID
-    8          pid_param_t CS_PID;//差速
-    9          int16 L_OUT=0,R_OUT=0;
-   10          
-   11          
-   12          /************************************************
-   13          函数名：constrain_float
-   14          功  能：限幅函数，将输入值限制在指定范围内
-   15          参  数：float amt, float low, float high
-   16          返回值：float 限幅后的值
-   17          ************************************************/
-   18          float constrain_float(float amt, float low, float high)
-   19          {
-   20   1          return ((amt)<(low)?(low):((amt)>(high)?(high):(amt)));
-   21   1      }
-   22          
-   23          
-   24          /************************************************
-   25          函数名：PidLocCtrl
-   26          功  能：位置式PID控制
-   27          参  数：pid_param_t * pid, float error
-   28          返回值：float 控制输出
-   29          ************************************************/
-   30          float PidLocCtrl(pid_param_t * pid, float error)
-   31          {
-   32   1      
-   33   1          Nomal_PID.kp=1.1;
-   34   1          Nomal_PID.kd=5;
-   35   1      
-   36   1          CS_PID.kp=1;
-   37   1          CS_PID.kd=0;
-   38   1      
-   39   1          /* 累积误差 */
-   40   1          pid->integrator += error;
-   41   1      
-   42   1          /* 误差限幅 */
-   43   1          constrain_float(pid->integrator, -pid->imax, pid->imax);
-   44   1      
-   45   1      
-   46   1          pid->out_p = pid->kp * error;
-   47   1          pid->out_i = pid->ki * pid->integrator;
-   48   1          pid->out_d = pid->kd * (error - pid->last_error);
-   49   1      
-   50   1          pid->last_error = error;
+    7          pid_param_t DJr_PID;//增量式PID
+    8          pid_param_t DJl_PID;
+    9          pid_param_t CS_PID;//差速
+   10          int16 L_OUT=0,R_OUT=0;
+   11          float last_error_R = 0;
+   12          float last_error_L = 0;
+   13          
+   14          /************************************************
+   15          函数名：constrain_float
+   16          功  能：限幅函数，将输入值限制在指定范围内
+   17          参  数：float amt, float low, float high
+   18          返回值：float 限幅后的值
+   19          ************************************************/
+   20          float constrain_float(float amt, float low, float high)
+   21          {
+   22   1          return ((amt)<(low)?(low):((amt)>(high)?(high):(amt)));
+   23   1      }
+   24          
+   25          
+   26          /************************************************
+   27          函数名：PidLocCtrl
+   28          功  能：位置式PID控制
+   29          参  数：pid_param_t * pid, float error
+   30          返回值：float 控制输出
+   31          ************************************************/
+   32          float PidLocCtrl(pid_param_t * pid, float error)
+   33          {
+   34   1      
+   35   1          Nomal_PID.kp=1.1;
+   36   1          Nomal_PID.kd=5;
+   37   1      
+   38   1          CS_PID.kp=1;
+   39   1          CS_PID.kd=0;
+   40   1      
+   41   1          /* 累积误差 */
+   42   1          pid->integrator += error;
+   43   1      
+   44   1          /* 误差限幅 */
+   45   1          constrain_float(pid->integrator, -pid->imax, pid->imax);
+   46   1      
+   47   1      
+   48   1          pid->out_p = pid->kp * error;
+   49   1          pid->out_i = pid->ki * pid->integrator;
+   50   1          pid->out_d = pid->kd * (error - pid->last_error);
    51   1      
-   52   1          pid->out = pid->out_p + pid->out_i + pid->out_d;
+   52   1          pid->last_error = error;
    53   1      
-   54   1      //    if(pid->out>SERVO_MOTOR_LMAX)
-   55   1      //    {pid->out=SERVO_MOTOR_LMAX;}
-   56   1      //    if(pid->out<SERVO_MOTOR_RMIN)
-C251 COMPILER V5.60.0,  Agorithm                                                           17/03/25  18:55:27  PAGE 2   
+   54   1          pid->out = pid->out_p + pid->out_i + pid->out_d;
+   55   1      
+   56   1      //    if(pid->out>SERVO_MOTOR_LMAX)
+C251 COMPILER V5.60.0,  Agorithm                                                           24/03/25  23:39:16  PAGE 2   
 
-   57   1      //    {pid->out=SERVO_MOTOR_RMIN;}
-   58   1          return pid->out;
-   59   1      //    printf("OUT:%d\n",pid->out);
-   60   1      }
-   61          
-   62          /************************************************
-   63          函数名：PidIncCtrl_L
-   64          功  能：增量式PID控制左
-   65          参  数：&DJ_PID, L_speed-templ_pluse 期待速度-当前速度
-   66          返回值：float 控制输出
-   67          ************************************************/
-   68          float PidIncCtrl_L(pid_param_t * pid, float error)
-   69          {
-   70   1          DJ_PID.kp=40;
-   71   1          DJ_PID.ki=0.00005;
-   72   1          // DJ_PID.kd=5;
-   73   1      
-   74   1      
-   75   1      
-   76   1          pid->out_p = pid->kp * (error - pid->last_error);
-   77   1          pid->out_i = pid->ki * error;
-   78   1          pid->out_d = pid->kd * ((error - pid->last_error) - pid->last_derivative);
-   79   1      
-   80   1          pid->last_derivative = error - pid->last_error;
-   81   1          pid->last_error = error;
-   82   1      
-   83   1          pid->out += pid->out_p + pid->out_i + pid->out_d;
-   84   1          return pid->out;
-   85   1      }
-   86          
-   87          /************************************************
-   88          函数名：PidIncCtrl_R
-   89          功  能：增量式PID控制右
-   90          参  数：&DJ_PID, R_speed-tempr_pluse 期待速度-当前速度
-   91          返回值：float 控制输出
-   92          ************************************************/
-   93          float PidIncCtrl_R(pid_param_t * pid, float error)
-   94          {
-   95   1          DJ_PID.kp=40;
-   96   1          DJ_PID.ki=0.00005;
-   97   1          // DJ_PID.kd=5;
-   98   1      
-   99   1      
-  100   1      
-  101   1          pid->out_p = pid->kp * (error - pid->last_error);
-  102   1          pid->out_i = pid->ki * error;
-  103   1          pid->out_d = pid->kd * ((error - pid->last_error) - pid->last_derivative);
-  104   1      
-  105   1          pid->last_derivative = error - pid->last_error;
-  106   1          pid->last_error = error;
+   57   1      //    {pid->out=SERVO_MOTOR_LMAX;}
+   58   1      //    if(pid->out<SERVO_MOTOR_RMIN)
+   59   1      //    {pid->out=SERVO_MOTOR_RMIN;}
+   60   1      
+   61   1          return pid->out;
+   62   1      //    printf("OUT:%d\n",pid->out);
+   63   1      }
+   64          
+   65          /************************************************
+   66          函数名：PidIncCtrl_L
+   67          功  能：增量式PID控制左
+   68          参  数：&DJ_PID, L_speed-templ_pluse 期待速度-当前速度
+   69          返回值：float 控制输出
+   70          ************************************************/
+   71          float PidIncCtrl_L(pid_param_t * pid, float error)
+   72          {
+   73   1          DJl_PID.kp=23.9; // 增加比例系数
+   74   1          DJl_PID.ki=0.00005; // 增加积分系数
+   75   1          DJl_PID.kd=0.1; // 适当调整微分系数
+   76   1      
+   77   1          // 简单低通滤波器
+   78   1          error = 0.9 * last_error_L + 0.1 * error;
+   79   1          last_error_L = error;
+   80   1      
+   81   1          pid->out_p = pid->kp * (error - pid->last_error);
+   82   1          pid->out_i = pid->ki * error;
+   83   1          pid->out_d = pid->kd * ((error - pid->last_error) - pid->last_derivative);
+   84   1      
+   85   1          pid->last_derivative = error - pid->last_error;
+   86   1          pid->last_error = error;
+   87   1      
+   88   1          pid->out += pid->out_p + pid->out_i + pid->out_d;
+   89   1          return pid->out;
+   90   1      }
+   91          
+   92          /************************************************
+   93          函数名：PidIncCtrl_R
+   94          功  能：增量式PID控制右
+   95          参  数：&DJ_PID, R_speed-tempr_pluse 期待速度-当前速度
+   96          返回值：float 控制输出
+   97          ************************************************/
+   98          float PidIncCtrl_R(pid_param_t * pid, float error)
+   99          {
+  100   1          DJr_PID.kp=25; // 增加比例系数
+  101   1          DJr_PID.ki=0.00005; // 增加积分系数
+  102   1          DJr_PID.kd=0.1; // 适当调整微分系数
+  103   1      
+  104   1          // 简单低通滤波器
+  105   1          error = 0.9 * last_error_R + 0.1 * error;
+  106   1          last_error_R = error;
   107   1      
-  108   1          pid->out += pid->out_p + pid->out_i + pid->out_d;
-  109   1          return pid->out;
-  110   1      }
-  111          
-  112          /************************************************
-  113           函数名：DRV8701_loop_ctrl
-  114           功 能：驱动DRV8701电机控制器的闭环控制
-  115           参 数：左期望速度, 右期望速度
-  116           返回值：无
-  117          ************************************************/
-  118          void DRV8701_loop_ctrl(float L_speed,float R_speed)//填入期望速度
-  119          {
-  120   1        L_OUT=PidIncCtrl_L(&DJ_PID,L_speed-templ_pluse);
-  121   1        R_OUT=PidIncCtrl_R(&DJ_PID,R_speed-tempr_pluse);
-  122   1      
-C251 COMPILER V5.60.0,  Agorithm                                                           17/03/25  18:55:27  PAGE 3   
+  108   1          pid->out_p = pid->kp * (error - pid->last_error);
+  109   1          pid->out_i = pid->ki * error;
+  110   1          pid->out_d = pid->kd * (error - 2*pid->last_error + pid->last_derivative);
+  111   1      
+  112   1          pid->last_derivative =pid->last_error;
+  113   1      
+  114   1          pid->last_error = error;
+  115   1      
+  116   1          pid->out += pid->out_p + pid->out_i + pid->out_d;
+  117   1         if(pid->out>8000)
+  118   1         {
+  119   2               pid->out=8000; 
+  120   2         }
+  121   1         
+  122   1          return pid->out;
+C251 COMPILER V5.60.0,  Agorithm                                                           24/03/25  23:39:16  PAGE 3   
 
-  123   1        DRV8701_ctrl(L_OUT,R_OUT);
-  124   1      }
+  123   1      }
+  124          
+  125          /************************************************
+  126           函数名：DRV8701_loop_ctrl
+  127           功 能：驱动DRV8701电机控制器的闭环控制
+  128           参 数：左期望速度, 右期望速度
+  129           返回值：无
+  130          ************************************************/
+  131          void DRV8701_loop_ctrl(float L_speed,float R_speed)//填入期望速度
+  132          {
+  133   1        L_OUT=PidIncCtrl_L(&DJl_PID,L_speed-templ_pluse);
+  134   1        R_OUT=PidIncCtrl_R(&DJr_PID,R_speed-tempr_pluse);
+  135   1      
+  136   1        DRV8701_ctrl(L_OUT,R_OUT);
+  137   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1234     ------
+  code size            =      1473     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       200     ------
+  edata size           =       256     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -157,7 +170,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        28     ------
+  hconst size          =        44     ------
 End of Module Information.
 
 

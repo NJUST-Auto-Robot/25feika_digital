@@ -24,7 +24,8 @@ extern int32 TIM_0_flag;
 extern int32 TIM_1_flag;
 
 extern pid_param_t Nomal_PID;
-extern pid_param_t DJ_PID;
+extern pid_param_t DJr_PID;
+extern pid_param_t DJl_PID;
 extern pid_param_t CS_PID;
 extern int16 L_OUT,R_OUT;
 

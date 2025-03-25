@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  isr                                                                17/03/25  18:55:27  PAGE 1   
+C251 COMPILER V5.60.0,  isr                                                                25/03/25  00:08:06  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE isr
@@ -66,7 +66,7 @@ stmt  level    source
    52   1        {
    53   2              UART2_CLEAR_TX_FLAG;
    54   2          busy[2] = 0;
-C251 COMPILER V5.60.0,  isr                                                                17/03/25  18:55:27  PAGE 2   
+C251 COMPILER V5.60.0,  isr                                                                25/03/25  00:08:06  PAGE 2   
 
    55   2        }
    56   1          if(UART2_GET_RX_FLAG)
@@ -134,7 +134,7 @@ stmt  level    source
   118          {
   119   1        INT3_CLEAR_FLAG;  //清除中断标志
   120   1      }
-C251 COMPILER V5.60.0,  isr                                                                17/03/25  18:55:27  PAGE 3   
+C251 COMPILER V5.60.0,  isr                                                                25/03/25  00:08:06  PAGE 3   
 
   121          
   122          void INT4_Isr() interrupt 16
@@ -166,45 +166,47 @@ stmt  level    source
   148          void TM4_Isr() interrupt 20
   149          {
   150   1        TIM4_CLEAR_FLAG; //清除中断标志
-  151   1        Dir_encoder_get();
-  152   1        DRV8701_loop_ctrl(100,100);//速度环闭环
-  153   1      }
-  154          
-  155          //void  INT0_Isr()  interrupt 0;
-  156          //void  TM0_Isr()   interrupt 1;
-  157          //void  INT1_Isr()  interrupt 2;
-  158          //void  TM1_Isr()   interrupt 3;
-  159          //void  UART1_Isr() interrupt 4;
-  160          //void  ADC_Isr()   interrupt 5;
-  161          //void  LVD_Isr()   interrupt 6;
-  162          //void  PCA_Isr()   interrupt 7;
-  163          //void  UART2_Isr() interrupt 8;
-  164          //void  SPI_Isr()   interrupt 9;
-  165          //void  INT2_Isr()  interrupt 10;
-  166          //void  INT3_Isr()  interrupt 11;
-  167          //void  TM2_Isr()   interrupt 12;
-  168          //void  INT4_Isr()  interrupt 16;
-  169          //void  UART3_Isr() interrupt 17;
-  170          //void  UART4_Isr() interrupt 18;
-  171          //void  TM3_Isr()   interrupt 19;
-  172          //void  TM4_Isr()   interrupt 20;
-  173          //void  CMP_Isr()   interrupt 21;
-  174          //void  I2C_Isr()   interrupt 24;
-  175          //void  USB_Isr()   interrupt 25;
-  176          //void  PWM1_Isr()  interrupt 26;
-  177          //void  PWM2_Isr()  interrupt 27;
+  151   1          Dir_encoder_get();
+  152   1        // Nelement_recogniz();
+  153   1          // motor();
+  154   1          DRV8701_loop_ctrl(0,0);
+  155   1      }
+  156          
+  157          //void  INT0_Isr()  interrupt 0;
+  158          //void  TM0_Isr()   interrupt 1;
+  159          //void  INT1_Isr()  interrupt 2;
+  160          //void  TM1_Isr()   interrupt 3;
+  161          //void  UART1_Isr() interrupt 4;
+  162          //void  ADC_Isr()   interrupt 5;
+  163          //void  LVD_Isr()   interrupt 6;
+  164          //void  PCA_Isr()   interrupt 7;
+  165          //void  UART2_Isr() interrupt 8;
+  166          //void  SPI_Isr()   interrupt 9;
+  167          //void  INT2_Isr()  interrupt 10;
+  168          //void  INT3_Isr()  interrupt 11;
+  169          //void  TM2_Isr()   interrupt 12;
+  170          //void  INT4_Isr()  interrupt 16;
+  171          //void  UART3_Isr() interrupt 17;
+  172          //void  UART4_Isr() interrupt 18;
+  173          //void  TM3_Isr()   interrupt 19;
+  174          //void  TM4_Isr()   interrupt 20;
+  175          //void  CMP_Isr()   interrupt 21;
+  176          //void  I2C_Isr()   interrupt 24;
+  177          //void  USB_Isr()   interrupt 25;
+  178          //void  PWM1_Isr()  interrupt 26;
+  179          //void  PWM2_Isr()  interrupt 27;
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       414     ------
+  code size            =       406     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
+C251 COMPILER V5.60.0,  isr                                                                25/03/25  00:08:06  PAGE 4   
+
   pdata size           =    ------     ------
   xdata size           =    ------     ------
-C251 COMPILER V5.60.0,  isr                                                                17/03/25  18:55:27  PAGE 4   
-
   xdata-const size     =    ------     ------
   edata size           =         2     ------
   bit size             =    ------     ------

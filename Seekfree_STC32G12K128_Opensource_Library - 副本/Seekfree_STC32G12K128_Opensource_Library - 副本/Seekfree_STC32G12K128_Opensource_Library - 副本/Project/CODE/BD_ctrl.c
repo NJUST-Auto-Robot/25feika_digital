@@ -9,7 +9,8 @@
 #include "headfile.h"
 #include "BD_ctrl.h"
 
- int flag = 0;
+ int flag = NO_FLAG;
+ int round_flag = 0;
 /************************************************
  函数名：Nelement_recogniz
  功 能：元素识别函数
@@ -30,10 +31,44 @@ void Nelement_recogniz(void)
  int stra = error_11 + error_12 + error_21;
      stra = stra / 3;
     Nadc_normalization_once();
+    if (dg_state.L_l11_once<8)
+    {
+        dg_state.L_l11_once = 0;
+    }
+    if (dg_state.L_l12_once<8)
+    {
+        dg_state.L_l12_once = 0;
+    }
+    if (dg_state.L_l13_once<8)
+    {
+        dg_state.L_l13_once = 0;
+    }
+    if (dg_state.L_l21_once<8)
+    {
+        dg_state.L_l21_once = 0;
+    }
+    if (dg_state.L_r11_once<8)
+    {
+        dg_state.L_r11_once = 0;
+    }
+    if (dg_state.L_r12_once<8)
+    {
+        dg_state.L_r12_once = 0;
+    }
+    if (dg_state.L_r13_once<8)
+    {
+        dg_state.L_r13_once = 0;
+    }
+    if (dg_state.L_r21_once<8)
+    {
+        dg_state.L_r21_once = 0;
+    }
+    
     /*以下为直线识别部分*/
     if (98 < dg_state.L_r13_once < 102 && -2 < stra < 2)
     {
         flag = STRIAGHT;
+        round_flag = 0;
     }
     /*以下为十字路口识别部分*/
     if (90<dg_state.L_r13_once<100&&90<dg_state.L_l13_once<100&&-2 <error_11 < 2 && -2 <error_12 < 2&&-2 <error_21 < 2)
@@ -71,22 +106,25 @@ if ((dg_state.L_r13_once > 180) && dg_state.L_l13_once > 50)//接近环岛出入
 {
 Nadc_normalization_once();}
 //进入环岛
-if ((temp_l11-=dg_state.L_l11_once)>30&&(temp_l12-=dg_state.L_l12_once)>20&&(temp_l21-=dg_state.L_l21_once>10))
+if ((temp_l11-=dg_state.L_l11_once)>30&&(temp_l12-=dg_state.L_l12_once)>20&&(temp_l21-=dg_state.L_l21_once>10)&&round_flag==0)
 {
     flag = InRoundaboutL;
 }
-if ((temp_r11-=dg_state.L_r11_once)>30&&(temp_r12-=dg_state.L_r12_once)>20&&(temp_r21-=dg_state.L_r21_once>10))
+if ((temp_r11-=dg_state.L_r11_once)>30&&(temp_r12-=dg_state.L_r12_once)>20&&(temp_r21-=dg_state.L_r21_once>10)&&round_flag==0)
 {
     flag = InRoundaboutR;
 }
 //离开环岛
-// if (temp_l11-=dg_state.l11_once<-30&&temp_l12-=dg_state.l12_once<-20&&temp_l21-=dg_state.l21_once<-10)
+// if (temp_l11-=dg_state.l11_once<-30&&temp_l12==dg_state.l12_once<-20&&temp_l21==dg_state.l21_once<-10)
 // {
 //     flag = OutRoundaboutL;
+//     round_flag++;
 // }
-// if (temp_r11-=dg_state.r11_once<-30&&temp_r12-=dg_state.r12_once<-20&&temp_r21-=dg_state.r21_once<-10)
+// if (temp_r11-=dg_state.r11_once<-30&&temp_r12==dg_state.r12_once<-20&&temp_r21==dg_state.r21_once<-10)
 // {
 //     flag = OutRoundaboutR;
+//     round_flag++;
+// }
 }
 
 

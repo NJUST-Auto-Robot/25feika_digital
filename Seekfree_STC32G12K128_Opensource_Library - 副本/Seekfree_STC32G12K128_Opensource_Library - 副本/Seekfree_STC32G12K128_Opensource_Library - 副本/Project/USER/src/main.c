@@ -18,13 +18,13 @@
  ********************************************************************************************************************/
 
 #include "headfile.h"
+#include <action.h>
+
 
 
 /*
  * 系统频率，可查看board.h中的 FOSC 宏定义修改。
  * board.h文件中FOSC的值设置为0,则程序自动设置系统频率为33.1776MHZ
- * 在board_init中,已经将P54引脚设置为复位
- * 如果需要使用P54引脚,可以在board.c文件中的board_init()函数中删除SET_P54_RESRT即可
  */
 
  uint8 buffer[30];
@@ -37,11 +37,11 @@ void main()
     Dir_encoder_init();
     DRV8701_init();
     delay_init();
+    Nadc_init();
     while(1)
-	{
-        // printf("L_OUT:%d\n",L_OUT);
-        printf("R_OUT:%d\n",R_OUT);
-        delay_ms(50);
+	{   
+        // printf("%d,%d,%d\n",dg_state.L_r13_once,dg_state.L_l13_once,flag);
+        // delay_ms(50);
 		 // 此处编写需要循环执行的代码
 
     }

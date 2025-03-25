@@ -148,8 +148,10 @@ void TM3_Isr() interrupt 19
 void TM4_Isr() interrupt 20
 {
 	TIM4_CLEAR_FLAG; //清除中断标志
-	Dir_encoder_get();
-	DRV8701_loop_ctrl(100,100);//速度环闭环
+    Dir_encoder_get();
+	// Nelement_recogniz();
+    // motor();
+    DRV8701_loop_ctrl(0,0);
 }
 
 //void  INT0_Isr()  interrupt 0;

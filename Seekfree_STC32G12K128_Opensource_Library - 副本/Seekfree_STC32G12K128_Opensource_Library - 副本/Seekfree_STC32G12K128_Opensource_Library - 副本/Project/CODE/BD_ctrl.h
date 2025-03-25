@@ -13,7 +13,8 @@
 
 
 typedef enum 
-{
+{    
+    NO_FLAG,
     STRIAGHT,
     Crossroads,
     TurnLeft,
@@ -22,5 +23,9 @@ typedef enum
     AngleRight,
     InRoundaboutL,
     InRoundaboutR,
+    OutRoundaboutL,
+    OutRoundaboutR
 }flag_enum;
+extern int flag;
+void Nelement_recogniz(void);
  #endif

@@ -1,90 +1,59 @@
+/*********************************************************************************************************************
+ * @author     		Niko
+ * @Target core		STC32G12K128
+ * @date       		2025-3-6
+ * @brief           姝ゅ簱涓哄厓绱犺瘑鍒簱锛屽悗缁帶鍒跺湪涓诲嚱鏁颁腑杩涜
+ * @Last editor     Niko
+ ********************************************************************************************************************/
 #include "headfile.h"
-
-gyro_param_t Gyro_Offset;
-IMU_param_t  IMU_Data;
-
-int IMU_1_Open_flag = 0;//开启IMU标志位
-
-float Yaw_1 = 0;
-float Roll_1 = 0;
-float Picth_1 = 0;
-
-void IMU_init(void)//IMU初始化
+#include  "action.h"
+#include "BD_ctrl.h"
+void motor(void)
 {
-    imu660ra_init();   //IMU660惯导初始化
-
-    IMU_gyro_Offset_Init();// 陀螺仪零漂初始化
-}
-
-uint16 i;
-void IMU_gyro_Offset_Init(void)
-{
-    Gyro_Offset.Xdata = 0;
-    Gyro_Offset.Ydata = 0;
-    Gyro_Offset.Zdata = 0;
-
-		 
-    for (i = 0; i < 1000; i++)
+    if(flag == NO_FLAG)
     {
-        Gyro_Offset.Xdata += imu660ra_gyro_x;
-        Gyro_Offset.Ydata += imu660ra_gyro_y;
-        Gyro_Offset.Zdata += imu660ra_gyro_z;
-        delay_ms(5);   // 最大 1Khz
+        DRV8701_loop_ctrl(0,0);
+    }
+    if(flag == STRIAGHT)
+    {
+        DRV8701_loop_ctrl(100,100);
+    }
+    if(flag == Crossroads)
+    {
+        DRV8701_loop_ctrl(100,100);
+    }
+    if(flag == TurnLeft)
+    {
+        DRV8701_loop_ctrl(100,50);
+    }
+    if(flag == TurnRight)
+    {
+        DRV8701_loop_ctrl(50,100); 
+    }
+    if(flag == AngleLeft)
+    {
+        DRV8701_loop_ctrl(100,70);
+    }
+    if(flag == AngleRight)
+    {
+        DRV8701_loop_ctrl(70,100);
+    }
+    if(flag == InRoundaboutL)
+    {
+       DRV8701_loop_ctrl(100,30);
+    }
+    if(flag == InRoundaboutR)
+    {
+       DRV8701_loop_ctrl(30,100);
+    }
+    if(flag == OutRoundaboutL)
+    {
+       DRV8701_loop_ctrl(100,30); 
+    }
+    else{
+        DRV8701_loop_ctrl(0,0);
     }
 
-    Gyro_Offset.Xdata /= 1000;
-    Gyro_Offset.Ydata /= 1000;
-    Gyro_Offset.Zdata /= 1000;
-}
-
-void IMU_GetValues(void)//将采集的数值转化为实际物理值, 并对陀螺仪进行去零漂处理
-{
-    IMU_Data.gyro_x = ((float) imu660ra_gyro_x - Gyro_Offset.Xdata)* PI / 180/ 16.384f;
-    IMU_Data.gyro_y = ((float) imu660ra_gyro_y - Gyro_Offset.Ydata)* PI / 180/ 16.384f;
-    IMU_Data.gyro_z = ((float) imu660ra_gyro_z - Gyro_Offset.Zdata)* PI / 180/ 16.384f;
-
-    if(IMU_Data.gyro_z<0.015&&IMU_Data.gyro_z>-0.015)//滤波
-    {
-        Yaw_1-=0;
-    }
-    else
-    {
-        IMU_Handle_180();
-     }
-
-}
-
-void IMU_Handle_180(void)
-{
-
-    Yaw_1-=RAD_TO_ANGLE(IMU_Data.gyro_z*0.005);//(积分过程)本来是逆时针为正,现在改为顺时针为正
-
-   if(Yaw_1>180 && Yaw_1<=360)
-    {
-        Yaw_1-=360;
-    }
-    else if(Yaw_1<(-180) && Yaw_1>=(-360))
-    {
-        Yaw_1+=360;
-    }
-
-}
-
-void IMU_data_get(void)
-{
-    imu660ra_get_gyro();
-
-    if(IMU_1_Open_flag==1)
-    {
-        IMU_GetValues();
-    }
-}
-
-void IMU_text(void)
-{
-    IMU_1_Open_flag=1;
-//    while(1)
-//    {
-//        ips200_show_string(8*0, 16*0, "Yaw:");      ips200_show_float(8*5,16*0,Yaw_1,3,6);
-//    }
+    
+   
 }

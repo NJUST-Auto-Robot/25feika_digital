@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 1   
+C251 COMPILER V5.60.0,  board                                                              24/03/25  23:39:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE board
@@ -66,7 +66,7 @@ stmt  level    source
    50   2          //选择 22.1184MHz
    51   2          CLKDIV = 0x04;
    52   2          IRTRIM = T22M_ADDR;
-C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 2   
+C251 COMPILER V5.60.0,  board                                                              24/03/25  23:39:12  PAGE 2   
 
    53   2          VRTRIM = VRT27M_ADDR;
    54   2          IRCBAND = 0x02;
@@ -134,7 +134,7 @@ stmt  level    source
   116          
   117          
   118          
-C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 3   
+C251 COMPILER V5.60.0,  board                                                              24/03/25  23:39:12  PAGE 3   
 
   119          
   120          
@@ -143,7 +143,7 @@ stmt  level    source
   123   1        EAXFR = 1;        // 使能访问XFR
   124   1        CKCON = 0x00;     // 设置外部数据总线为最快
   125   1        WTST = 0;               // 设置程序代码等待参数，赋值为0可将CPU执行程序的速度设置为最快
-  126   1        SET_P32_RESRT;      // 使P32为复位引脚
+  126   1        // SET_P32_RESRT;     // 使P32为复位引脚
   127   1        P_SW2 = 0x80;     // 开启特殊地址访问
   128   1      
   129   1      #if (1 == EXTERNAL_CRYSTA_ENABLE)
@@ -202,7 +202,7 @@ stmt  level    source
   182          #if (1 == PRINTF_ENABLE)      //初始化调试串口
   183          //重定义printf 数字 只能输出uint16
   184          char putchar(char c)
-C251 COMPILER V5.60.0,  board                                                              17/03/25  18:55:21  PAGE 4   
+C251 COMPILER V5.60.0,  board                                                              24/03/25  23:39:12  PAGE 4   
 
   185          {
   186   1        uart_putchar(UART_3, c);//把自己实现的串口打印一字节数据的函数替换到这里
@@ -226,7 +226,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       728     ------
+  code size            =       725     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

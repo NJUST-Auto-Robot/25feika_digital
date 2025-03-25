@@ -4,10 +4,12 @@ int32 TIM_0_flag=0;
 int32 TIM_1_flag=0;
 
 pid_param_t Nomal_PID;//位置式PID
-pid_param_t DJ_PID;//增量式PID
+pid_param_t DJr_PID;//增量式PID
+pid_param_t DJl_PID;
 pid_param_t CS_PID;//差速
 int16 L_OUT=0,R_OUT=0;
-
+float last_error_R = 0;
+float last_error_L = 0;
 
 /************************************************
 函数名：constrain_float
@@ -55,6 +57,7 @@ float PidLocCtrl(pid_param_t * pid, float error)
 //    {pid->out=SERVO_MOTOR_LMAX;}
 //    if(pid->out<SERVO_MOTOR_RMIN)
 //    {pid->out=SERVO_MOTOR_RMIN;}
+
     return pid->out;
 //    printf("OUT:%d\n",pid->out);
 }
@@ -67,11 +70,13 @@ float PidLocCtrl(pid_param_t * pid, float error)
 ************************************************/
 float PidIncCtrl_L(pid_param_t * pid, float error)
 {
-    DJ_PID.kp=40;
-    DJ_PID.ki=0.00005;
-    // DJ_PID.kd=5;
+    DJl_PID.kp=23.9; // 增加比例系数
+    DJl_PID.ki=0.00005; // 增加积分系数
+    DJl_PID.kd=0.1; // 适当调整微分系数
 
-
+    // 简单低通滤波器
+    error = 0.9 * last_error_L + 0.1 * error;
+    last_error_L = error;
 
     pid->out_p = pid->kp * (error - pid->last_error);
     pid->out_i = pid->ki * error;
@@ -92,20 +97,28 @@ float PidIncCtrl_L(pid_param_t * pid, float error)
 ************************************************/
 float PidIncCtrl_R(pid_param_t * pid, float error)
 {
-    DJ_PID.kp=40;
-    DJ_PID.ki=0.00005;
-    // DJ_PID.kd=5;
+    DJr_PID.kp=25; // 增加比例系数
+    DJr_PID.ki=0.00005; // 增加积分系数
+    DJr_PID.kd=0.1; // 适当调整微分系数
 
-
+    // 简单低通滤波器
+    error = 0.9 * last_error_R + 0.1 * error;
+    last_error_R = error;
 
     pid->out_p = pid->kp * (error - pid->last_error);
     pid->out_i = pid->ki * error;
-    pid->out_d = pid->kd * ((error - pid->last_error) - pid->last_derivative);
+    pid->out_d = pid->kd * (error - 2*pid->last_error + pid->last_derivative);
 
-    pid->last_derivative = error - pid->last_error;
+    pid->last_derivative =pid->last_error;
+
     pid->last_error = error;
 
     pid->out += pid->out_p + pid->out_i + pid->out_d;
+   if(pid->out>8000)
+   {
+         pid->out=8000; 
+   }
+   
     return pid->out;
 }
 
@@ -117,8 +130,8 @@ float PidIncCtrl_R(pid_param_t * pid, float error)
 ************************************************/
 void DRV8701_loop_ctrl(float L_speed,float R_speed)//填入期望速度
 {
-	L_OUT=PidIncCtrl_L(&DJ_PID,L_speed-templ_pluse);
-	R_OUT=PidIncCtrl_R(&DJ_PID,R_speed-tempr_pluse);
+	L_OUT=PidIncCtrl_L(&DJl_PID,L_speed-templ_pluse);
+	R_OUT=PidIncCtrl_R(&DJr_PID,R_speed-tempr_pluse);
 
 	DRV8701_ctrl(L_OUT,R_OUT);
 }

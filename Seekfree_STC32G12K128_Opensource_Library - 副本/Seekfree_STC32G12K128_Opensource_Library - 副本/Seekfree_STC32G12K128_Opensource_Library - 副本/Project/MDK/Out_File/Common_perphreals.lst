@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Common_perphreals                                                  17/03/25  18:55:28  PAGE 1   
+C251 COMPILER V5.60.0,  Common_perphreals                                                  24/03/25  23:39:16  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Common_perphreals
@@ -27,9 +27,9 @@ stmt  level    source
    14          void Dir_encoder_get(void)
    15          {
    16   1          //读取采集到的编码器脉冲数
-   17   1          templ_pluse = ctimer_count_read(SPEEDL_PLUSE);
+   17   1      
    18   1          tempr_pluse = ctimer_count_read(SPEEDR_PLUSE);
-   19   1      
+   19   1              templ_pluse = ctimer_count_read(SPEEDL_PLUSE);
    20   1          //计数器清零
    21   1          ctimer_count_clean(SPEEDL_PLUSE);
    22   1          ctimer_count_clean(SPEEDR_PLUSE);
@@ -40,7 +40,7 @@ stmt  level    source
    27   2                  templ_pluse = -templ_pluse;
    28   2              }
    29   1      
-   30   1          if(1 == SPEEDR_DIR)    
+   30   1          if(0 == SPEEDR_DIR)    
    31   1              {
    32   2                  tempr_pluse = -tempr_pluse;
    33   2              }
@@ -65,10 +65,10 @@ stmt  level    source
    50          
    51          void DRV8701_ctrl(int32 L_speed,int32 R_speed)
    52          {
-   53   1        constrain_float(L_speed,2000,-2000);
-C251 COMPILER V5.60.0,  Common_perphreals                                                  17/03/25  18:55:28  PAGE 2   
+   53   1        // L_speed=constrain_float(L_speed,8000,-8000);
+C251 COMPILER V5.60.0,  Common_perphreals                                                  24/03/25  23:39:16  PAGE 2   
 
-   54   1        constrain_float(R_speed,2000,-2000);
+   54   1        // R_speed=constrain_float(R_speed,8000,-8000);
    55   1        if(L_speed>=0)
    56   1        {
    57   2            DIR_1 = 0;
@@ -101,7 +101,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       314     ------
+  code size            =       254     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

@@ -47,7 +47,7 @@
 	char putchar(char c);
 #endif
 
-#define SET_P32_RESRT 	  (RSTCFG |= 1<<4)	//设置P32为复位引脚
+// #define SET_P32_RESRT 	  (RSTCFG |= 1<<4)	//设置P32为复位引脚
 
 extern int32 sys_clk;
 
