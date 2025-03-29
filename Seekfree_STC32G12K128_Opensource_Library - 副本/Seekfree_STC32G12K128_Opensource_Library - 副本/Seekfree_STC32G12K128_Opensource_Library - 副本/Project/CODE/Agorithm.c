@@ -70,8 +70,8 @@ float PidLocCtrl(pid_param_t * pid, float error)
 ************************************************/
 float PidIncCtrl_L(pid_param_t * pid, float error)
 {
-    DJl_PID.kp=23.9; // 增加比例系数
-    DJl_PID.ki=0.00005; // 增加积分系数
+    DJl_PID.kp=25.0; // 增加比例系数
+    DJl_PID.ki=0.00007; // 增加积分系数
     DJl_PID.kd=0.1; // 适当调整微分系数
 
     // 简单低通滤波器

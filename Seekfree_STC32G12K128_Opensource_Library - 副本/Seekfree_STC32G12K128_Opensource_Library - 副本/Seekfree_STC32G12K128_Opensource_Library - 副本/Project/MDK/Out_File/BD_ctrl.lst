@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  BD_ctrl                                                            24/03/25  23:39:16  PAGE 1   
+C251 COMPILER V5.60.0,  BD_ctrl                                                            29/03/25  17:41:33  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE BD_ctrl
@@ -23,154 +23,122 @@ stmt  level    source
     9          #include "headfile.h"
    10          #include "BD_ctrl.h"
    11          
-   12           int flag = NO_FLAG;
+   12           int flag;
    13           int round_flag = 0;
-   14          /************************************************
-   15           函数名：Nelement_recogniz
-   16           功 能：元素识别函数
-   17           参 数：void
-   18           返回值：void
-   19          ************************************************/
-   20          void Nelement_recogniz(void)
-   21          {
-   22   1       int temp_r11 = dg_state.L_r11_once;
-   23   1       int temp_r12 = dg_state.L_r12_once;
-   24   1       int temp_r21 = dg_state.L_r21_once;
-   25   1       int temp_l11 = dg_state.L_l11_once;
-   26   1       int temp_l12 = dg_state.L_l12_once;
-   27   1       int temp_l21 = dg_state.L_l21_once;
-   28   1       int error_11 = dg_state.L_l11_once - dg_state.L_r11_once;
-   29   1       int error_21 = dg_state.L_l21_once - dg_state.L_r21_once;
-   30   1       int error_12 = dg_state.L_l12_once - dg_state.L_r12_once;
-   31   1       int stra = error_11 + error_12 + error_21;
-   32   1           stra = stra / 3;
-   33   1          Nadc_normalization_once();
-   34   1          if (dg_state.L_l11_once<8)
-   35   1          {
-   36   2              dg_state.L_l11_once = 0;
-   37   2          }
-   38   1          if (dg_state.L_l12_once<8)
-   39   1          {
-   40   2              dg_state.L_l12_once = 0;
-   41   2          }
-   42   1          if (dg_state.L_l13_once<8)
-   43   1          {
-   44   2              dg_state.L_l13_once = 0;
-   45   2          }
-   46   1          if (dg_state.L_l21_once<8)
-   47   1          {
-   48   2              dg_state.L_l21_once = 0;
+   14           int stra;
+   15           int error_11;
+   16           int error_12;
+   17           int error_13;
+   18           int error_21;
+   19           int l12_21;
+   20           int r12_21;
+   21          /************************************************
+   22           函数名：Nelement_recogniz
+   23           功 能：元素识别函数
+   24           参 数：void
+   25           返回值：void
+   26          ************************************************/
+   27          void Nelement_recogniz(void)
+   28          {
+   29   1          Nadc_normalization_max();
+   30   1          Nadc_normalization_once();
+   31   1          error_11=dg_state.L_l11_once-dg_state.L_r11_once;
+   32   1          error_12=dg_state.L_l12_once-dg_state.L_r12_once;
+   33   1          error_13=dg_state.L_l13_once-dg_state.L_r13_once;
+   34   1          error_21=dg_state.L_l21_once-dg_state.L_r21_once;
+   35   1          l12_21=dg_state.L_l12_once-dg_state.L_l21_once;
+   36   1          r12_21=dg_state.L_r12_once-dg_state.L_r21_once;
+   37   1          stra=error_12+error_21;
+   38   1          stra=stra/2;
+   39   1          /*以下为停止状态*/
+   40   1          if ((uint16)dg_state.L_l11_once>200||(uint16)dg_state.L_l12_once>200||(uint16)dg_state.L_l13_once>200
+             -||(uint16)dg_state.L_l21_once>200||(uint16)dg_state.L_r11_once>200||(uint16)dg_state.L_r12_once>200||(uint16)dg_state.L_
+             -r13_once>200||(uint16)dg_state.L_r21_once>200)
+   41   1          {
+   42   2              flag = NO_FLAG;
+   43   2          } 
+   44   1          /*以下为直线识别部分*/
+   45   1          if (dg_state.L_r13_once<105&&dg_state.L_r13_once>95&&dg_state.L_l13_once<8)
+   46   1          {
+   47   2              flag = STRIAGHT;
+   48   2              round_flag = 0;
    49   2          }
-   50   1          if (dg_state.L_r11_once<8)
-   51   1          {
-   52   2              dg_state.L_r11_once = 0;
-   53   2          }
-   54   1          if (dg_state.L_r12_once<8)
-C251 COMPILER V5.60.0,  BD_ctrl                                                            24/03/25  23:39:16  PAGE 2   
+   50   1          /*以下为十字路口识别部分*/
+   51   1          // if (-2 <error_11&&error_11 < 2 && -2 <error_12&&error_12 < 2&&-2 <error_21 &&error_21< 2&&98 < dg_
+             -state.L_r13_once && dg_state.L_r13_once < 102)
+C251 COMPILER V5.60.0,  BD_ctrl                                                            29/03/25  17:41:33  PAGE 2   
 
-   55   1          {
-   56   2              dg_state.L_r12_once = 0;
-   57   2          }
-   58   1          if (dg_state.L_r13_once<8)
-   59   1          {
-   60   2              dg_state.L_r13_once = 0;
-   61   2          }
-   62   1          if (dg_state.L_r21_once<8)
-   63   1          {
-   64   2              dg_state.L_r21_once = 0;
-   65   2          }
-   66   1          
-   67   1          /*以下为直线识别部分*/
-   68   1          if (98 < dg_state.L_r13_once < 102 && -2 < stra < 2)
-   69   1          {
-   70   2              flag = STRIAGHT;
-   71   2              round_flag = 0;
-   72   2          }
-   73   1          /*以下为十字路口识别部分*/
-   74   1          if (90<dg_state.L_r13_once<100&&90<dg_state.L_l13_once<100&&-2 <error_11 < 2 && -2 <error_12 < 2&&-2 
-             -<error_21 < 2)
-   75   1          {
-   76   2              flag = Crossroads;
-   77   2          }
-   78   1          /*以下为直角弯道识别部分*/
-   79   1          if ( dg_state.L_l13_once >85&& dg_state.L_r13_once > 85)
-   80   1          {
-   81   2              if (error_11 > 90 && error_21 > 90 && error_12 > 80)
-   82   2              {
-   83   3                  flag = TurnLeft;
-   84   3              }
-   85   2              else if (error_11 <-90 && error_21 <-90 && error_12 <-80)
-   86   2              {
-   87   3                  flag = TurnRight;
-   88   3              }
-   89   2              
-   90   2      }
-   91   1      /*以下为锐角弯道识别部分*/
-   92   1          if ( 5<dg_state.L_l13_once <90&& dg_state.L_r13_once > 90)
-   93   1          {
-   94   2          if (5<error_11 < 90 && 5<error_21 < 90 && 5<error_12 <80)
-   95   2          {
-   96   3              flag = AngleLeft;
-   97   3          }
-   98   2          else  if (-90<error_11 < -5 && -90<error_21 < -5 && -80<error_12 <-5)
-   99   2          {
-  100   3              flag = AngleRight;
-  101   3          }
-  102   2      }
-  103   1      
-  104   1      /*以下为环岛识别部分*/
-  105   1      if ((dg_state.L_r13_once > 180) && dg_state.L_l13_once > 50)//接近环岛出入点
-  106   1      {
-  107   2      Nadc_normalization_once();}
-  108   1      //进入环岛
-  109   1      if ((temp_l11-=dg_state.L_l11_once)>30&&(temp_l12-=dg_state.L_l12_once)>20&&(temp_l21-=dg_state.L_l21_onc
-             -e>10)&&round_flag==0)
-  110   1      {
-  111   2          flag = InRoundaboutL;
-  112   2      }
-  113   1      if ((temp_r11-=dg_state.L_r11_once)>30&&(temp_r12-=dg_state.L_r12_once)>20&&(temp_r21-=dg_state.L_r21_onc
-             -e>10)&&round_flag==0)
-  114   1      {
-  115   2          flag = InRoundaboutR;
-  116   2      }
-  117   1      //离开环岛
-C251 COMPILER V5.60.0,  BD_ctrl                                                            24/03/25  23:39:16  PAGE 3   
-
-  118   1      // if (temp_l11-=dg_state.l11_once<-30&&temp_l12==dg_state.l12_once<-20&&temp_l21==dg_state.l21_once<-10)
-  119   1      // {
-  120   1      //     flag = OutRoundaboutL;
-  121   1      //     round_flag++;
-  122   1      // }
-  123   1      // if (temp_r11-=dg_state.r11_once<-30&&temp_r12==dg_state.r12_once<-20&&temp_r21==dg_state.r21_once<-10)
-  124   1      // {
-  125   1      //     flag = OutRoundaboutR;
-  126   1      //     round_flag++;
-  127   1      // }
-  128   1      }
-  129          
-  130          
-  131          
-  132          
+   52   1          // {
+   53   1          //     flag = Crossroads;
+   54   1          // }
+   55   1          /*以下为直角弯道识别部分*/
+   56   1          if ( (dg_state.L_l11_once >35||dg_state.L_r11_once>40)&& dg_state.L_r13_once > 95)
+   57   1          {
+   58   2              if (error_11>5)
+   59   2              {
+   60   3                  flag = TurnLeft;
+   61   3              }
+   62   2              else if (error_11<-15)
+   63   2              {
+   64   3                  flag = TurnRight;
+   65   3              }
+   66   2              
+   67   2          }
+   68   1          else{
+   69   2              flag = STRIAGHT;
+   70   2          }
+   71   1          if ((uint16)dg_state.L_l11_once>200||(uint16)dg_state.L_l12_once>200||(uint16)dg_state.L_l13_once>200
+             -||(uint16)dg_state.L_l21_once>200||(uint16)dg_state.L_r12_once>200||(uint16)dg_state.L_r13_once>200||(uint16)dg_state.L_
+             -r21_once>200)
+   72   1          {
+   73   2              flag = NO_FLAG;
+   74   2          } 
+   75   1      /*以下为锐角弯道识别部分*/
+   76   1      //     if ( 2<dg_state.L_l13_once&&dg_state.L_l13_once<10)
+   77   1      //     {
+   78   1      //     if (error_12>15)
+   79   1      //     {
+   80   1      //         flag = AngleLeft;
+   81   1      //     }
+   82   1      //     else  if (error_12<-15)
+   83   1      //     {
+   84   1      //         flag = AngleRight;
+   85   1      //     }
+   86   1      // }
+   87   1      
+   88   1      /*以下为环岛识别部分*/
+   89   1      
+   90   1      //进入环岛
+   91   1      
+   92   1      //离开环岛
+   93   1       
+   94   1      }
+   95          
+   96          
+   97          
+   98          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1179     ------
+  code size            =       492     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        24     ------
+  edata size           =        18     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
+C251 COMPILER V5.60.0,  BD_ctrl                                                            29/03/25  17:41:33  PAGE 3   
+
   const size           =    ------     ------
-  hconst size          =        12     ------
+  hconst size          =         6     ------
 End of Module Information.
 
 

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ADC                                                                24/03/25  23:39:16  PAGE 1   
+C251 COMPILER V5.60.0,  ADC                                                                27/03/25  21:17:52  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ADC
@@ -23,143 +23,143 @@ stmt  level    source
     8          #include "headfile.h"
     9          #include "ADC.h"
    10          adc_state dg_state;
-   11          /************************************************
-   12          函数名：Nadc_init
-   13          功  能：一键式初始化adc引脚,默认adc时钟频率为sysclk/2
-   14          参  数：void
-   15          返回值：void
-   16          ************************************************/
-   17          void Nadc_init(void){
-   18   1          adc_init(ADC_P10,ADC_SYSclk_DIV_2);
-   19   1          adc_init(ADC_P11,ADC_SYSclk_DIV_2);
-   20   1          adc_init(ADC_P12,ADC_SYSclk_DIV_2);
-   21   1          adc_init(ADC_P13,ADC_SYSclk_DIV_2);
-   22   1          adc_init(ADC_P14,ADC_SYSclk_DIV_2);
-   23   1          adc_init(ADC_P15,ADC_SYSclk_DIV_2);
-   24   1          adc_init(ADC_P16,ADC_SYSclk_DIV_2);
-   25   1          adc_init(ADC_P17,ADC_SYSclk_DIV_2);
-   26   1      }
-   27          /************************************************
-   28          函数名：Nadc_mean_filter_remove_max_min
-   29          功  能：adc均值滤波去除最大值和最小值
-   30          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
-   31          返回值：adc_value 去除最大值和最小值之后的adc均值
-   32          ************************************************/
-   33          uint16 Nadc_mean_filter_remove_max_min(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
-   34          {
-   35   1        uint8 i;
-   36   1        uint16 adc_value = 0;
-   37   1        uint16 max = 0,min = 4096;
-   38   1        uint16 dat = 0;
-   39   1        for (i = 0;i < count + 2;i++)
-   40   1        {
-   41   2          dat = adc_once(adcn,resolution);//使用变量dat读取一次ADC即可，避免多次读取ADC
-   42   2          adc_value += dat;
-   43   2          if(max < dat)
-   44   2            max = dat;
-   45   2          if(min > dat)
-   46   2            min = dat;
-   47   2        }
-   48   1        adc_value = (adc_value - max - min)/ count;
-   49   1        return adc_value;
-   50   1      }
-   51          /************************************************
-   52          函数名：Nadc_getmax
-   53          功  能：adc读取最大值，以便后面归一化处理
-C251 COMPILER V5.60.0,  ADC                                                                24/03/25  23:39:16  PAGE 2   
+   11          uint32 temp=100;
+   12          int temp_r11;
+   13          int temp_r12;
+   14          int temp_r13;
+   15          int temp_r21;
+   16          int temp_l11;
+   17          int temp_l12;
+   18          int temp_l13;
+   19          int temp_l21;
+   20          /************************************************
+   21          函数名：Nadc_init
+   22          功  能：一键式初始化adc引脚,默认adc时钟频率为sysclk/2
+   23          参  数：void
+   24          返回值：void
+   25          ************************************************/
+   26          void Nadc_init(void){
+   27   1          adc_init(ADC_P10,ADC_SYSclk_DIV_2);
+   28   1          adc_init(ADC_P11,ADC_SYSclk_DIV_2);
+   29   1          // adc_init(ADC_P12,ADC_SYSclk_DIV_2);
+   30   1          adc_init(ADC_P13,ADC_SYSclk_DIV_2);
+   31   1          adc_init(ADC_P14,ADC_SYSclk_DIV_2);
+   32   1          adc_init(ADC_P15,ADC_SYSclk_DIV_2);
+   33   1          adc_init(ADC_P16,ADC_SYSclk_DIV_2);
+   34   1          adc_init(ADC_P17,ADC_SYSclk_DIV_2);
+   35   1        //IO口需要设置为高阻输入
+   36   1        ADC_CONTR &= (0xF0);      //清除ADC_CHS[3:0] ： ADC 模拟通道选择位
+   37   1        ADC_CONTR |= ADC_P12;
+   38   1        P5M0 &= ~(1 << (4 & 0x07));
+   39   1        P5M1 |= (1 << (4 & 0x07));  
+   40   1      }
+   41          /************************************************
+   42          函数名：Nadc_mean_filter_remove_max_min
+   43          功  能：adc均值滤波去除最大值和最小值
+   44          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
+   45          返回值：adc_value 去除最大值和最小值之后的adc均值
+   46          ************************************************/
+   47          uint32 Nadc_mean_filter_remove_max_min(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
+   48          {
+   49   1        uint8 i;
+   50   1        uint32 adc_value = 0;
+   51   1        uint32 max = 0,min = 0;
+   52   1        uint32 dat = 0;
+   53   1        for (i = 0;i < count + 2;i++)
+C251 COMPILER V5.60.0,  ADC                                                                27/03/25  21:17:52  PAGE 2   
 
-   54          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
-   55          返回值：max adc读取到的最大值
-   56          ************************************************/
-   57          uint16 Nadc_getmax(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
-   58          {
-   59   1        uint8 i;
-   60   1        uint16 adc_value = 0;
-   61   1        uint16 max = 0;
-   62   1        uint16 dat = 0;
-   63   1        for (i = 0;i < count + 2;i++)
-   64   1        {
-   65   2          dat = adc_once(adcn,resolution);//使用变量dat读取一次ADC即可，避免多次读取ADC
-   66   2          adc_value += dat;
-   67   2          if(max < dat)
-   68   2            max = dat;
-   69   2          }
-   70   1          return max;
-   71   1      }
-   72          /************************************************
-   73          函数名：Nget_ADC_values_mean_filter
-   74          功  能：用均值滤波法一键读取所有所需电感值，adc分辨率默认12bit
-   75          参  数：void
-   76          返回值：void
-   77          ************************************************/
-   78          void Nget_ADC_values_mean_filter(void){
-   79   1          dg_state.L_l11_real=Nadc_mean_filter_remove_max_min(ADC_P10,10,ADC_12BIT);
-   80   1          dg_state.L_l12_real=Nadc_mean_filter_remove_max_min(ADC_P15,10,ADC_12BIT);
-   81   1          dg_state.L_l13_real=Nadc_mean_filter_remove_max_min(ADC_P14,10,ADC_12BIT);
-   82   1          dg_state.L_l21_real=Nadc_mean_filter_remove_max_min(ADC_P11,10,ADC_12BIT);
-   83   1          dg_state.L_r11_real=Nadc_mean_filter_remove_max_min(ADC_P16,10,ADC_12BIT);
-   84   1          dg_state.L_r12_real=Nadc_mean_filter_remove_max_min(ADC_P12,10,ADC_12BIT);
-   85   1          dg_state.L_r13_real=Nadc_mean_filter_remove_max_min(ADC_P13,10,ADC_12BIT);
-   86   1          dg_state.L_r21_real=Nadc_mean_filter_remove_max_min(ADC_P17,10,ADC_12BIT);
-   87   1      }
-   88          /************************************************
-   89          函数名：Nadc_normalization_once
-   90          功  能：将所得电感值进行第一次归一化
-   91          参  数：void
-   92          返回值：void
-   93          ************************************************/
-   94          void Nadc_normalization_once(void){
-   95   1          Nget_ADC_values_mean_filter();
-   96   1          dg_state.L_l11_once = ((float)dg_state.L_l11_real) * 100 / dg_state.L_l11_max;
-   97   1        dg_state.L_l12_once = ((float)dg_state.L_l12_real) * 100 / dg_state.L_l12_max;
-   98   1        dg_state.L_l13_once = ((float)dg_state.L_l13_real) * 100 / dg_state.L_l13_max;
-   99   1        dg_state.L_l21_once = ((float)dg_state.L_l21_real) * 100 / dg_state.L_l21_max;
-  100   1        dg_state.L_r11_once = ((float)dg_state.L_r11_real) * 100 / dg_state.L_r11_max;
-  101   1        dg_state.L_r12_once = ((float)dg_state.L_r12_real) * 100 / dg_state.L_r12_max;
-  102   1        dg_state.L_r13_once = ((float)dg_state.L_r13_real) * 100 / dg_state.L_r13_max;
-  103   1        dg_state.L_r21_once = ((float)dg_state.L_r21_real) * 100 / dg_state.L_r21_max;
-  104   1      
-  105   1        dg_state.L_l11_once = constrain_float(dg_state.L_l11_once,0,210);//限幅0-100
-  106   1        dg_state.L_l12_once = constrain_float(dg_state.L_l12_once,0,210);//限幅0-100
-  107   1        dg_state.L_l13_once = constrain_float(dg_state.L_l13_once,0,210);//限幅0-100
-  108   1        dg_state.L_l21_once = constrain_float(dg_state.L_l21_once,0,210);//限幅0-100
-  109   1        dg_state.L_r11_once = constrain_float(dg_state.L_r11_once,0,210);//限幅0-100
-  110   1        dg_state.L_r12_once = constrain_float(dg_state.L_r12_once,0,210);//限幅0-100
-  111   1        dg_state.L_r13_once = constrain_float(dg_state.L_r13_once,0,210);//限幅0-100
-  112   1          dg_state.L_r21_once = constrain_float(dg_state.L_r21_once,0,210);//限幅0-100
-  113   1      }
-  114          /************************************************
-  115          函数名：Nadc_normalization_max
-  116          功  能：读取场地最大电感值以便后续归一化
-  117          参  数：void
-  118          返回值：void
-  119          ************************************************/
-C251 COMPILER V5.60.0,  ADC                                                                24/03/25  23:39:16  PAGE 3   
+   54   1        {
+   55   2          dat = adc_once(adcn,resolution);//使用变量dat读取一次ADC即可，避免多次读取ADC
+   56   2          min = dat;
+   57   2          max = dat;
+   58   2          adc_value += dat;
+   59   2          if(max < dat)
+   60   2            max = dat;
+   61   2          if(min > dat)
+   62   2            min = dat;
+   63   2        }
+   64   1        adc_value = (adc_value - max - min)/ count;
+   65   1        return adc_value;
+   66   1      }
+   67          /************************************************
+   68          函数名：Nadc_getmax
+   69          功  能：adc读取最大值，以便后面归一化处理
+   70          参  数：adcn 选择adc通道;count 采集次数;resolution 分辨率
+   71          返回值：max adc读取到的最大值
+   72          ************************************************/
+   73          uint32 Nadc_getmax(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
+   74          {
+   75   1        uint8 i;
+   76   1        uint32 max;
+   77   1        uint32 dat;
+   78   1        for (i = 0;i < count + 2;i++)
+   79   1        {
+   80   2          dat = adc_once(adcn,resolution);//使用变量dat读取一次ADC即可，避免多次读取ADC
+   81   2          if(max < dat)
+   82   2            max = dat;
+   83   2          }
+   84   1          return max+1;
+   85   1      }
+   86          /************************************************
+   87          函数名：Nget_ADC_values_mean_filter
+   88          功  能：用均值滤波法一键读取所有所需电感值，adc分辨率默认12bit
+   89          参  数：void
+   90          返回值：void
+   91          ************************************************/
+   92          void Nget_ADC_values_mean_filter(void){
+   93   1          dg_state.L_r11_real=Nadc_mean_filter_remove_max_min(ADC_P10,10,ADC_12BIT);
+   94   1          dg_state.L_r12_real=Nadc_mean_filter_remove_max_min(ADC_P15,10,ADC_12BIT);
+   95   1          dg_state.L_r13_real=Nadc_mean_filter_remove_max_min(ADC_P14,10,ADC_12BIT);
+   96   1          dg_state.L_r21_real=Nadc_mean_filter_remove_max_min(ADC_P11,10,ADC_12BIT);
+   97   1          dg_state.L_l12_real=Nadc_mean_filter_remove_max_min(ADC_P16,10,ADC_12BIT);
+   98   1          dg_state.L_l11_real=Nadc_mean_filter_remove_max_min(ADC_P12,10,ADC_12BIT);
+   99   1          dg_state.L_l21_real=Nadc_mean_filter_remove_max_min(ADC_P13,10,ADC_12BIT);
+  100   1          dg_state.L_l13_real=Nadc_mean_filter_remove_max_min(ADC_P17,10,ADC_12BIT);
+  101   1      }
+  102          /************************************************
+  103          函数名：Nadc_normalization_max
+  104          功  能：读取场地最大电感值以便后续归一化
+  105          参  数：void
+  106          返回值：void
+  107          ************************************************/
+  108          void Nadc_normalization_max(void){
+  109   1        dg_state.L_r13_max=adc_once(ADC_P14,ADC_12BIT);
+  110   1        dg_state.L_l11_max=dg_state.L_r13_max;
+  111   1          dg_state.L_l12_max=dg_state.L_r13_max;
+  112   1          dg_state.L_l21_max=dg_state.L_r13_max;
+  113   1          dg_state.L_r11_max=dg_state.L_r13_max;
+  114   1          dg_state.L_r12_max=dg_state.L_r13_max;
+  115   1          dg_state.L_l13_max=dg_state.L_r13_max;
+  116   1          dg_state.L_r21_max=dg_state.L_r13_max;
+  117   1      }
+  118          /************************************************
+  119          函数名：Nadc_normalization_once
+C251 COMPILER V5.60.0,  ADC                                                                27/03/25  21:17:52  PAGE 3   
 
-  120          void Nadc_normalization_max(void){
-  121   1        dg_state.L_l13_max=Nadc_getmax(ADC_P14,10,ADC_12BIT);
-  122   1        dg_state.L_l11_max=dg_state.L_l13_max;
-  123   1          dg_state.L_l12_max=dg_state.L_l13_max;
-  124   1          dg_state.L_l21_max=dg_state.L_l13_max;
-  125   1          dg_state.L_r11_max=dg_state.L_l13_max;
-  126   1          dg_state.L_r12_max=dg_state.L_l13_max;
-  127   1          dg_state.L_r13_max=dg_state.L_l13_max;
-  128   1          dg_state.L_r21_max=dg_state.L_l13_max;
-  129   1      }
-  130          
-  131          
-  132          
-  133          
-  134          
-  135          
-  136          
-  137          
-  138          
-  139          
-  140          
-  141          
-  142          
-  143          
+  120          功  能：将所得电感值进行第一次归一化
+  121          参  数：void
+  122          返回值：void
+  123          ************************************************/
+  124          void Nadc_normalization_once(void){
+  125   1          Nget_ADC_values_mean_filter();
+  126   1          dg_state.L_l11_once = (dg_state.L_l11_real * temp) / dg_state.L_l11_max;
+  127   1        dg_state.L_l12_once = (dg_state.L_l12_real * temp) / dg_state.L_l12_max;
+  128   1        dg_state.L_l13_once = (dg_state.L_l13_real * temp) / dg_state.L_l13_max;
+  129   1        dg_state.L_l21_once = (dg_state.L_l21_real * temp) / dg_state.L_l21_max;
+  130   1        dg_state.L_r11_once = (dg_state.L_r11_real * temp) / dg_state.L_r11_max;
+  131   1        dg_state.L_r12_once = (dg_state.L_r12_real * temp) / dg_state.L_r12_max;
+  132   1        dg_state.L_r13_once = (dg_state.L_r13_real * temp) / dg_state.L_r13_max;
+  133   1        dg_state.L_r21_once = (dg_state.L_r21_real * temp) / dg_state.L_r21_max;
+  134   1      
+  135   1        dg_state.L_l11_once = constrain_float(dg_state.L_l11_once,0,210);//限幅0-100
+  136   1        dg_state.L_l12_once = constrain_float(dg_state.L_l12_once,0,210);//限幅0-100
+  137   1        dg_state.L_l13_once = constrain_float(dg_state.L_l13_once,0,210);//限幅0-100
+  138   1        dg_state.L_l21_once = constrain_float(dg_state.L_l21_once,0,210);//限幅0-100
+  139   1        dg_state.L_r11_once = constrain_float(dg_state.L_r11_once,0,210);//限幅0-100
+  140   1        dg_state.L_r12_once = constrain_float(dg_state.L_r12_once,0,210);//限幅0-100
+  141   1        dg_state.L_r13_once = constrain_float(dg_state.L_r13_once,0,210);//限幅0-100
+  142   1          dg_state.L_r21_once = constrain_float(dg_state.L_r21_once,0,210);//限幅0-100
+  143   1      }
   144          
   145          
   146          
@@ -202,7 +202,7 @@ stmt  level    source
   183          
   184          
   185          
-C251 COMPILER V5.60.0,  ADC                                                                24/03/25  23:39:16  PAGE 4   
+C251 COMPILER V5.60.0,  ADC                                                                27/03/25  21:17:52  PAGE 4   
 
   186          
   187          
@@ -270,7 +270,7 @@ stmt  level    source
   249          
   250          
   251          
-C251 COMPILER V5.60.0,  ADC                                                                24/03/25  23:39:16  PAGE 5   
+C251 COMPILER V5.60.0,  ADC                                                                27/03/25  21:17:52  PAGE 5   
 
   252          
   253          
@@ -303,18 +303,33 @@ stmt  level    source
   280          
   281          
   282          
+  283          
+  284          
+  285          
+  286          
+  287          
+  288          
+  289          
+  290          
+  291          
+  292          
+  293          
+  294          
+  295          
+  296          
+  297          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1054     ------
+  code size            =       976     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       122     ------
+  edata size           =       184     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -322,8 +337,10 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =    ------     ------
+  hconst size          =         8     ------
 End of Module Information.
+
+C251 COMPILER V5.60.0,  ADC                                                                27/03/25  21:17:52  PAGE 6   
 
 
 C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

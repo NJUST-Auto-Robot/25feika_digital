@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Common_perphreals                                                  24/03/25  23:39:16  PAGE 1   
+C251 COMPILER V5.60.0,  Common_perphreals                                                  28/03/25  00:01:00  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Common_perphreals
@@ -55,8 +55,8 @@ stmt  level    source
    40          
    41          void DRV8701_init(void)
    42          {
-   43   1        pwm_init(PWM_1, 17000, 0);  //初始化PWM1  使用P26引脚  初始化频率为17Khz
-   44   1        pwm_init(PWM_2, 17000, 0);  //初始化PWM2  使用P20引脚  初始化频率为17Khz
+   43   1        pwm_init(PWM_1, 33000, 0);  //初始化PWM1  使用P26引脚  初始化频率为17Khz
+   44   1        pwm_init(PWM_2, 33000, 0);  //初始化PWM2  使用P20引脚  初始化频率为17Khz
    45   1        
    46   1        gpio_mode(P2_6, GPO_PP);  // P26引脚设置为推挽输出
    47   1        gpio_mode(P2_0, GPO_PP);  // P20引脚设置为推挽输出
@@ -66,7 +66,7 @@ stmt  level    source
    51          void DRV8701_ctrl(int32 L_speed,int32 R_speed)
    52          {
    53   1        // L_speed=constrain_float(L_speed,8000,-8000);
-C251 COMPILER V5.60.0,  Common_perphreals                                                  24/03/25  23:39:16  PAGE 2   
+C251 COMPILER V5.60.0,  Common_perphreals                                                  28/03/25  00:01:00  PAGE 2   
 
    54   1        // R_speed=constrain_float(R_speed,8000,-8000);
    55   1        if(L_speed>=0)

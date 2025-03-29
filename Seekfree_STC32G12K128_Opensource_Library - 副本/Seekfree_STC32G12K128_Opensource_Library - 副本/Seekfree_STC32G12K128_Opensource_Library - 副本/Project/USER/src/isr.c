@@ -149,9 +149,8 @@ void TM4_Isr() interrupt 20
 {
 	TIM4_CLEAR_FLAG; //清除中断标志
     Dir_encoder_get();
-	// Nelement_recogniz();
-    // motor();
-    DRV8701_loop_ctrl(0,0);
+	Nelement_recogniz();
+    motor();
 }
 
 //void  INT0_Isr()  interrupt 0;
@@ -159,7 +158,7 @@ void TM4_Isr() interrupt 20
 //void  INT1_Isr()  interrupt 2;
 //void  TM1_Isr()   interrupt 3;
 //void  UART1_Isr() interrupt 4;
-//void  ADC_Isr()   interrupt 5;
+// void  ADC_Isr();   interrupt 5;
 //void  LVD_Isr()   interrupt 6;
 //void  PCA_Isr()   interrupt 7;
 //void  UART2_Isr() interrupt 8;

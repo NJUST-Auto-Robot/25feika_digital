@@ -70,61 +70,65 @@ void Nelement_recogniz(void)
         flag = STRIAGHT;
         round_flag = 0;
     }
-    /*以下为十字路口识别部分*/
-    if (90<dg_state.L_r13_once<100&&90<dg_state.L_l13_once<100&&-2 <error_11 < 2 && -2 <error_12 < 2&&-2 <error_21 < 2)
+    else
     {
-        flag = Crossroads;
+        flag = NO_FLAG;
     }
-    /*以下为直角弯道识别部分*/
-    if ( dg_state.L_l13_once >85&& dg_state.L_r13_once > 85)
-    {
-        if (error_11 > 90 && error_21 > 90 && error_12 > 80)
-        {
-            flag = TurnLeft;
-        }
-        else if (error_11 <-90 && error_21 <-90 && error_12 <-80)
-        {
-            flag = TurnRight;
-        }
+//     /*以下为十字路口识别部分*/
+//     if (90<dg_state.L_r13_once<100&&90<dg_state.L_l13_once<100&&-2 <error_11 < 2 && -2 <error_12 < 2&&-2 <error_21 < 2)
+//     {
+//         flag = Crossroads;
+//     }
+//     /*以下为直角弯道识别部分*/
+//     if ( dg_state.L_l13_once >85&& dg_state.L_r13_once > 85)
+//     {
+//         if (error_11 > 90 && error_21 > 90 && error_12 > 80)
+//         {
+//             flag = TurnLeft;
+//         }
+//         else if (error_11 <-90 && error_21 <-90 && error_12 <-80)
+//         {
+//             flag = TurnRight;
+//         }
         
-}
-/*以下为锐角弯道识别部分*/
-    if ( 5<dg_state.L_l13_once <90&& dg_state.L_r13_once > 90)
-    {
-    if (5<error_11 < 90 && 5<error_21 < 90 && 5<error_12 <80)
-    {
-        flag = AngleLeft;
-    }
-    else  if (-90<error_11 < -5 && -90<error_21 < -5 && -80<error_12 <-5)
-    {
-        flag = AngleRight;
-    }
-}
+// }
+// /*以下为锐角弯道识别部分*/
+//     if ( 5<dg_state.L_l13_once <90&& dg_state.L_r13_once > 90)
+//     {
+//     if (5<error_11 < 90 && 5<error_21 < 90 && 5<error_12 <80)
+//     {
+//         flag = AngleLeft;
+//     }
+//     else  if (-90<error_11 < -5 && -90<error_21 < -5 && -80<error_12 <-5)
+//     {
+//         flag = AngleRight;
+//     }
+// }
 
-/*以下为环岛识别部分*/
-if ((dg_state.L_r13_once > 180) && dg_state.L_l13_once > 50)//接近环岛出入点
-{
-Nadc_normalization_once();}
-//进入环岛
-if ((temp_l11-=dg_state.L_l11_once)>30&&(temp_l12-=dg_state.L_l12_once)>20&&(temp_l21-=dg_state.L_l21_once>10)&&round_flag==0)
-{
-    flag = InRoundaboutL;
-}
-if ((temp_r11-=dg_state.L_r11_once)>30&&(temp_r12-=dg_state.L_r12_once)>20&&(temp_r21-=dg_state.L_r21_once>10)&&round_flag==0)
-{
-    flag = InRoundaboutR;
-}
-//离开环岛
-// if (temp_l11-=dg_state.l11_once<-30&&temp_l12==dg_state.l12_once<-20&&temp_l21==dg_state.l21_once<-10)
+// /*以下为环岛识别部分*/
+// if ((dg_state.L_r13_once > 180) && dg_state.L_l13_once > 50)//接近环岛出入点
 // {
-//     flag = OutRoundaboutL;
-//     round_flag++;
-// }
-// if (temp_r11-=dg_state.r11_once<-30&&temp_r12==dg_state.r12_once<-20&&temp_r21==dg_state.r21_once<-10)
+// Nadc_normalization_once();}
+// //进入环岛
+// if ((temp_l11-=dg_state.L_l11_once)>30&&(temp_l12-=dg_state.L_l12_once)>20&&(temp_l21-=dg_state.L_l21_once>10)&&round_flag==0)
 // {
-//     flag = OutRoundaboutR;
-//     round_flag++;
+//     flag = InRoundaboutL;
 // }
+// if ((temp_r11-=dg_state.L_r11_once)>30&&(temp_r12-=dg_state.L_r12_once)>20&&(temp_r21-=dg_state.L_r21_once>10)&&round_flag==0)
+// {
+//     flag = InRoundaboutR;
+// }
+// //离开环岛
+// // if (temp_l11-=dg_state.l11_once<-30&&temp_l12==dg_state.l12_once<-20&&temp_l21==dg_state.l21_once<-10)
+// // {
+// //     flag = OutRoundaboutL;
+// //     round_flag++;
+// // }
+// // if (temp_r11-=dg_state.r11_once<-30&&temp_r12==dg_state.r12_once<-20&&temp_r21==dg_state.r21_once<-10)
+// // {
+// //     flag = OutRoundaboutR;
+// //     round_flag++;
+// // }
 }
 
 

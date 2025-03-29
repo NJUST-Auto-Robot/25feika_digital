@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               25/03/25  00:08:07  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               29/03/25  17:04:46  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -41,22 +41,24 @@ stmt  level    source
    27           * board.h文件中FOSC的值设置为0,则程序自动设置系统频率为33.1776MHZ
    28           */
    29          
-   30           uint8 buffer[30];
-   31          void main()
-   32          {
-   33   1        board_init();     // 初始化寄存器,勿删除此句代码。
-   34   1        
-   35   1        // 此处编写用户代码(例如：外设初始化代码等)
-   36   1          pit_timer_ms(TIM_4, 5);
-   37   1          Dir_encoder_init();
-   38   1          DRV8701_init();
-   39   1          delay_init();
-   40   1          Nadc_init();
-   41   1          while(1)
-   42   1        {   
-   43   2              // printf("%d,%d,%d\n",dg_state.L_r13_once,dg_state.L_l13_once,flag);
-   44   2              // delay_ms(50);
-   45   2           // 此处编写需要循环执行的代码
+   30          void main()
+   31          {
+   32   1        board_init();     // 初始化寄存器,勿删除此句代码。
+   33   1        
+   34   1        // 此处编写用户代码(例如：外设初始化代码等)
+   35   1          pit_timer_ms(TIM_4, 5);
+   36   1          Dir_encoder_init();
+   37   1          DRV8701_init();
+   38   1          delay_init();
+   39   1          Nadc_init();
+   40   1          while(1)
+   41   1        {   
+   42   2              printf("%d,%d,%d,%d\n",(uint16)dg_state.L_l11_once,(uint16)dg_state.L_l12_once,(uint16)dg_state.L
+             -_l13_once,(uint16)dg_state.L_l21_once);
+   43   2              printf("%d,%d,%d,%d\n",(uint16)dg_state.L_r11_once,(uint16)dg_state.L_r12_once,(uint16)dg_state.L
+             -_r13_once,(uint16)dg_state.L_r21_once);
+   44   2              printf("%d\n",flag);
+   45   2              delay_ms(50);
    46   2      
    47   2          }
    48   1      }
@@ -65,16 +67,16 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =        29     ------
-  ecode size           =    ------     ------
-C251 COMPILER V5.60.0,  main                                                               25/03/25  00:08:07  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               29/03/25  17:04:46  PAGE 2   
 
+  code size            =       141     ------
+  ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        30     ------
+  edata size           =    ------     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -82,7 +84,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =    ------     ------
+  hconst size          =        17     ------
 End of Module Information.
 
 

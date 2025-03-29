@@ -27,7 +27,6 @@
  * board.h文件中FOSC的值设置为0,则程序自动设置系统频率为33.1776MHZ
  */
 
- uint8 buffer[30];
 void main()
 {
 	board_init();			// 初始化寄存器,勿删除此句代码。
@@ -39,9 +38,11 @@ void main()
     delay_init();
     Nadc_init();
     while(1)
-	{   
-        // printf("%d,%d,%d\n",dg_state.L_r13_once,dg_state.L_l13_once,flag);
-        // delay_ms(50);
+	{   Nelement_recogniz();
+        printf("%d,%d,%d,%d\n",dg_state.L_l11_once,dg_state.L_l12_once,dg_state.L_l13_once,dg_state.L_l21_once);
+        printf("%d,%d,%d,%d\n",dg_state.L_r11_once,dg_state.L_r12_once,dg_state.L_r13_once,dg_state.L_r21_once);
+        printf("%d\n",flag);
+        delay_ms(200);
 		 // 此处编写需要循环执行的代码
 
     }

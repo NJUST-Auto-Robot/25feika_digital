@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Agorithm                                                           24/03/25  23:39:16  PAGE 1   
+C251 COMPILER V5.60.0,  Agorithm                                                           27/03/25  21:17:51  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Agorithm
@@ -66,7 +66,7 @@ stmt  level    source
    54   1          pid->out = pid->out_p + pid->out_i + pid->out_d;
    55   1      
    56   1      //    if(pid->out>SERVO_MOTOR_LMAX)
-C251 COMPILER V5.60.0,  Agorithm                                                           24/03/25  23:39:16  PAGE 2   
+C251 COMPILER V5.60.0,  Agorithm                                                           27/03/25  21:17:51  PAGE 2   
 
    57   1      //    {pid->out=SERVO_MOTOR_LMAX;}
    58   1      //    if(pid->out<SERVO_MOTOR_RMIN)
@@ -84,8 +84,8 @@ stmt  level    source
    70          ************************************************/
    71          float PidIncCtrl_L(pid_param_t * pid, float error)
    72          {
-   73   1          DJl_PID.kp=23.9; // 增加比例系数
-   74   1          DJl_PID.ki=0.00005; // 增加积分系数
+   73   1          DJl_PID.kp=25.0; // 增加比例系数
+   74   1          DJl_PID.ki=0.00007; // 增加积分系数
    75   1          DJl_PID.kd=0.1; // 适当调整微分系数
    76   1      
    77   1          // 简单低通滤波器
@@ -134,7 +134,7 @@ stmt  level    source
   120   2         }
   121   1         
   122   1          return pid->out;
-C251 COMPILER V5.60.0,  Agorithm                                                           24/03/25  23:39:16  PAGE 3   
+C251 COMPILER V5.60.0,  Agorithm                                                           27/03/25  21:17:51  PAGE 3   
 
   123   1      }
   124          
@@ -155,7 +155,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1473     ------
+  code size            =      1471     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

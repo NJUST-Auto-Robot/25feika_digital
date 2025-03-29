@@ -27,5 +27,12 @@ typedef enum
     OutRoundaboutR
 }flag_enum;
 extern int flag;
+extern int error_11;
+extern int error_12;
+extern int error_13;
+extern int error_21;
+extern int l12_21;
+extern int r12_21;
+extern int stra;
 void Nelement_recogniz(void);
  #endif

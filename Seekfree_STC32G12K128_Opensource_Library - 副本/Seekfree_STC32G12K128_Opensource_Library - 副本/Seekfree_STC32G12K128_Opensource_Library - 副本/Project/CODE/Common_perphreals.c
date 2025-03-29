@@ -40,8 +40,8 @@ void Dir_encoder_get(void)
 
 void DRV8701_init(void)
 {
-	pwm_init(PWM_1, 17000, 0); 	//初始化PWM1  使用P26引脚  初始化频率为17Khz
-	pwm_init(PWM_2, 17000, 0); 	//初始化PWM2  使用P20引脚  初始化频率为17Khz
+	pwm_init(PWM_1, 33000, 0); 	//初始化PWM1  使用P26引脚  初始化频率为17Khz
+	pwm_init(PWM_2, 33000, 0); 	//初始化PWM2  使用P20引脚  初始化频率为17Khz
 	
 	gpio_mode(P2_6, GPO_PP);	// P26引脚设置为推挽输出
 	gpio_mode(P2_0, GPO_PP);	// P20引脚设置为推挽输出
